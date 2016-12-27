@@ -34,6 +34,7 @@ class Zone(models.Model):
         capacity = 0
         for activity in self.activities.all():
             capacity += activity.capacity
+        return capacity
 
     def __str__(self):
         capacity = self.get_capacity()
