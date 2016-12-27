@@ -30,5 +30,11 @@ class Zone(models.Model):
     activities = models.ManyToManyField(Activity, blank=True)
     adjacent_zones = models.ManyToManyField('self', blank=True)
 
+    def get_capacity(self):
+        capacity = 0
+        for activity in activities:
+            capacity += activity.capacity
+
     def __str__(self):
-        return self.name
+        capacity = self.get_capacity()
+        return self.name + ' (' + str(capacity) + ')'
