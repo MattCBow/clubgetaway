@@ -1,0 +1,1 @@
+/home/dev/clubgetaway/clubgetaway/__init__.py
