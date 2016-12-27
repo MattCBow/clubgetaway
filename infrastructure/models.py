@@ -28,7 +28,7 @@ class Activity(models.Model):
 class Zone(models.Model):
     name = models.CharField(max_length=30)
     activities = models.ManyToManyField(Activity, blank=True)
-    adjacent_zones = models.ManyToManyField(Zone, blank=True)
+    adjacent_zones = models.ManyToManyField('self', blank=True)
 
     def __str__(self):
         return self.name
