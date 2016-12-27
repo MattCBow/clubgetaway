@@ -89,7 +89,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'clubgetaway',
-        'USER': 'dev',
+        'USER': 'clubgetaway',
         'PASSWORD': 'clubgetaway4$DEV',
         'HOST': 'localhost',
         'PORT': '',
