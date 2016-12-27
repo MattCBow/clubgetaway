@@ -90,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'clubgetaway',
         'USER': 'dev',
-        'PASSWORD': 'Clubgetawaydev4$',
+        'PASSWORD': 'clubgetaway4$DEV',
         'HOST': 'localhost',
         'PORT': '',
     }
