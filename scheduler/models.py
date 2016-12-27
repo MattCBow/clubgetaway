@@ -18,7 +18,7 @@ class Assigment(models.Model):
     group = models.OneToOneField(operations_models.Group, blank=False)
     activity = models.OneToOneField(infrastructure_models.Activity, blank=False)
     period = models.OneToOneField(infrastructure_models.Period, blank=False)
-    crew = models.ManyToManyField(Employee, blank=True)
+    crew = models.ManyToManyField(operations_models.Employee, blank=True)
     def __str__(self):
         return group.__str__() + ' <--> ' + activity.__str__() + ' <--> ' + Period.__str__()
 
