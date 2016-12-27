@@ -23,7 +23,7 @@ class Activity(models.Model):
     availability = models.ManyToManyField(Period, blank=True,)
 
     def __str__(self):
-        return self.name
+        return self.name + ' (' + self.capacity + ')'
 
 class Zone(models.Model):
     name = models.CharField(max_length=30)
