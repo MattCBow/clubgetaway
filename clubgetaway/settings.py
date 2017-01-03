@@ -25,7 +25,7 @@ SECRET_KEY = '&*qeal&cgt((cx0l=ben*p7-+$r+^zib#b)v^vcjuqx4)veusy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'67.205.170.15']
+ALLOWED_HOSTS = [u'67.205.170.15', u'www.bowsoftware.com', u'bowsoftware.com']
 
 
 # Application definition
