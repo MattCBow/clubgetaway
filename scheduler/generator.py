@@ -75,7 +75,7 @@ class UserTester():
         return names
 
 
-    def create_program(self, program_type_name, program_name, start_date, end_date, guest_names):
+    def create_program(self, program_type, program_name, start_date, end_date, guest_names):
         program = Program(
             name=program_name,
             program_type=program_type,
@@ -100,7 +100,7 @@ class UserTester():
 
     def generate_program(self, program_type, program_name, start_date, end_date, number_of_guests):
         return self.create_program(
-            program_type_name=program_type,
+            program_type=program_type,
             program_name=program_name,
             start_date=start_date,
             end_date=end_date,
@@ -112,7 +112,7 @@ from scheduler.generator import *
 from operations.models import *
 test = UserTester()
 test.generate_program(
-    program_type_name=Program.CODE['Youth Program'],
+    program_type=Program.CODE['Youth Program'],
     program_name='My First Program',
     start_date='2017-01-01',
     end_date='2017-01-02',
