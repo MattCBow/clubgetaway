@@ -18,14 +18,14 @@ class Assigment(models.Model):
 
 class GroupLeader(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='group_leaders')
-    employee = models.ForeignKey(operations_models.Employee, on_delete=models.CASCADE)
+    employee = models.ForeignKey(infrastructure_models.Employee, on_delete=models.CASCADE)
     group = models.ForeignKey(operations_models.Group, on_delete=models.CASCADE)
     def __str__(self):
         return leader.__str__() + ' <--> ' + group.__str__()
 
 class Floater(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='floaters')
-    employee = models.ForeignKey(operations_models.Employee, on_delete=models.CASCADE)
+    employee = models.ForeignKey(infrastructure_models.Employee, on_delete=models.CASCADE)
     activity = models.ForeignKey(infrastructure_models.Activity, on_delete=models.CASCADE)
     def __str__(self):
         return floater.__str__() + ' <--> ' + activity.__str__()

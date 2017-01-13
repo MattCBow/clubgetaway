@@ -3,6 +3,7 @@
 ----------------------------------------------------------------------------'''
 from django.contrib.auth.models import User
 from operations.models import *
+from infrastructure.models import *
 import random
 
 class UserTester():
@@ -64,12 +65,55 @@ class UserTester():
             except IntegrityError as e:
                 attempt += 1
 
-    def generate_guests(self, num):
-        guests = []
-        for i in range(num):
-            guests += (random.choice(self.first_names), random.choice(self.last_names))
-        return guests
+    def generate_names(self, num_of_names):
+        names = []
+        for i in range(num_of_names):
+            name = {}
+            name.first = random.choice(self.first_names)
+            name.last = random.choice(self.last_names)
+            names += name
+        return names
 
-    def create_program(self, name, num, start, end):
-        guests = self.generate_guests(num)
-        #program = Program(name, start)
+
+    def create_program(self, program_type, program_name, start_date, end_date, guest_names):
+        program = Program(
+            name='here',
+            program_type=ProgramType.objects.filter(name=program_type)[0],
+            start_date=start_date,
+            end_date=end_date
+        )
+        program.save()
+        group_size = (youth_program.group_capacity/len(names))+1
+        groups = [guest_names[i::group_size] for i in range(group_size)]
+        for group_id in len(groups):
+            group = Group(
+                program=program,
+                number=group_id
+            )
+            guest.save()
+            for name in groups[group_id]:
+                guest = Guest(
+                    group=group,
+                    first_name=name.first,
+                    last_name=name.last
+                )
+                guest.save()
+
+    def generate_program(self, program_type, program_name, start_date, end_date, number_of_guests):
+        return self.create_program(
+            program_type=program_type,
+            program_name=program_name,
+            start_date=start_date,
+            end_date=end_date,
+            guest_names=self.generate_names(number_of_guests)
+        )
+
+'''
+self.generate_program(
+    program_type='Youth Program',
+    program_name='First Program',
+    start_date='2017-01-01',
+    end_date='2017-01-02',
+    number_of_guests=100
+)
+'''

@@ -28,3 +28,12 @@ class Activity(models.Model):
     activity_level = models.IntegerField(blank=True, null=True)
     def __str__(self):
         return self.name + ' (' + str(self.capacity) + ')' + ' --- ' + str(self.zone)
+
+class Employee(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    start_date = models.DateField(auto_now=False, auto_now_add=False)
+    end_date = models.DateField(auto_now=False, auto_now_add=False)
+    qualifications = models.ManyToManyField(infrastructure_models.Activity, blank=True)
+    def __str__(self):
+        return self.last_name + ', ' + self.first_name
