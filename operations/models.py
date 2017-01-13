@@ -19,19 +19,18 @@ class Employee(models.Model):
     def __str__(self):
         return self.last_name + ', ' + self.first_name
 
-class Group(models.Model):
+class Program(models.Model):
     name = models.CharField(max_length=30)
+    program_type = models.ForeignKey(infrastructure_models.ProgramType, related_name='programs')
+    start_date = models.DateField(auto_now=False, auto_now_add=False)
+    end_date = models.DateField(auto_now=False, auto_now_add=False)
     guests = models.ManyToManyField(Guest, blank=True)
     def __str__(self):
         return self.name
 
-class Program(models.Model):
+class Group(models.Model):
+    program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='groups')
     name = models.CharField(max_length=30)
-    program_type = models.ForeignKey(infrastructure_models.ProgramType)
-    size = models.IntegerField()
-    start_date = models.DateField(auto_now=False, auto_now_add=False)
-    end_date = models.DateField(auto_now=False, auto_now_add=False)
-    groups = models.ManyToManyField(Group, blank=True)
     guests = models.ManyToManyField(Guest, blank=True)
     def __str__(self):
         return self.name
