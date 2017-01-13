@@ -19,7 +19,6 @@ class Zone(models.Model):
     name = models.CharField(max_length=30)
     adjacent_zones = models.ManyToManyField('self', blank=True)
     def __str__(self):
-        capacity = self.get_capacity()
         return self.name
 
 class Activity(models.Model):
