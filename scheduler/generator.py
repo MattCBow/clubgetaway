@@ -69,8 +69,8 @@ class UserTester():
         names = []
         for i in range(num_of_names):
             name = {}
-            name[first] = random.choice(self.first_names)
-            name[last] = random.choice(self.last_names)
+            name['first'] = random.choice(self.first_names)
+            name['last'] = random.choice(self.last_names)
             names += name
         return names
 
@@ -94,8 +94,8 @@ class UserTester():
             for name in groups[group_id]:
                 guest = Guest(
                     group=group,
-                    first_name=name.first,
-                    last_name=name.last
+                    first_name=name['first'],
+                    last_name=name['last']
                 )
                 guest.save()
 
