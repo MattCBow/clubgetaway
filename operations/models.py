@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from infrastructure import models as infrastructure_models
+from infrastructure.models import *
 
 class Program(models.Model):
-    program_type = models.ForeignKey(infrastructure_models.ProgramType, related_name='programs')
+    program_type = models.ForeignKey(ProgramType, related_name='programs')
     name = models.CharField(max_length=30)
     start_date = models.DateField(auto_now=False, auto_now_add=False)
     end_date = models.DateField(auto_now=False, auto_now_add=False)
@@ -23,10 +23,3 @@ class Guest(models.Model):
     last_name = models.CharField(max_length=30)
     def __str__(self):
         return str(self.group) +' -- ' +self.last_name + ', ' + self.first_name
-
-class Abscence(models.Model):
-    day = models.DateField(auto_now=False, auto_now_add=False, unique=True)
-    employee = models.ManyToManyField(infrastructure_models.Employee, blank=True)
-    activity = models.ManyToManyField(infrastructure_models.Activity, blank=True)
-    def __str__(self):
-        return self.day.__str__()

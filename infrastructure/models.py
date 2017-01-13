@@ -25,9 +25,9 @@ class Activity(models.Model):
     name = models.CharField(max_length=30, unique=True)
     capacity = models.IntegerField()
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='activities')
-    activity_level = models.IntegerField(blank=True, null=True)
+    activity_level = models.IntegerField()
     def __str__(self):
-        return self.name + ' (' + str(self.capacity) + ')' + ' --- ' + str(self.zone)
+        return self.name + '\t\tZone:'+str(self.zone) + '\tCapacity:'+str(self.capacity) + '\t Level:' + str(self.activity_level)
 
 class Employee(models.Model):
     first_name = models.CharField(max_length=30)
