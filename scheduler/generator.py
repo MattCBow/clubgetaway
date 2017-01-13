@@ -78,7 +78,7 @@ class UserTester():
     def create_program(self, program_type_name, program_name, start_date, end_date, guest_names):
         program_type = ProgramType.objects.filter(name=program_type_name)[0]
         program = Program(
-            name='here',
+            name=program_name,
             program_type=program_type,
             start_date=start_date,
             end_date=end_date
@@ -91,7 +91,7 @@ class UserTester():
         for group_id in range(num_of_groups):
             group = Group(
                 program=program,
-                number=group_id
+                number=(group_id+1)
             )
             group.save()
             print 'Created Group #'+str(group_id)
