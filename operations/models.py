@@ -6,7 +6,7 @@ from infrastructure.models import *
 class Program(models.Model):
     YOUTH_PROGRAM = 'YP'
     CHOICE = {
-        YOUTH_PROGRAM:'YP',
+        YOUTH_PROGRAM:'Youth Program',
     }
     PROGRAM_TYPE_CHOICES = tuple([(code, CHOICE[code]) for code in [YOUTH_PROGRAM]])
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
