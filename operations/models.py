@@ -22,7 +22,7 @@ class Program(models.Model):
         return self.name
 
 class Guest(models.Model):
-    program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='groups')
+    program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='guests')
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     def __str__(self):
