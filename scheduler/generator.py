@@ -85,6 +85,7 @@ class UserTester():
         )
         program.save()
         num_of_groups = (program_type.group_capacity/len(guest_names))+1
+        print str(num_of_groups)
         for group_id in range(num_of_groups):
             group = Group(
                 program=program,
