@@ -26,6 +26,5 @@ class Activity(models.Model):
     capacity = models.IntegerField()
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='activities')
     activity_level = models.IntegerField(blank=True, null=True)
-    availability = models.ManyToManyField(Period, blank=True,)
     def __str__(self):
         return self.name + ' (' + str(self.capacity) + ')' + ' --- ' + str(self.zone)
