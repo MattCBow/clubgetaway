@@ -1,5 +1,6 @@
 '''----------------------------------------------------------------------------
                     Matthew Bowyer Account Generator
+----------------------------------------------------------------------------'''
 from django.contrib.auth.models import User
 from operations.models import *
 import random
@@ -72,6 +73,3 @@ class UserTester():
     def create_program(self, name, num, start, end):
         guests = self.generate_guests(num)
         #program = Program(name, start)
-
-
-----------------------------------------------------------------------------'''
