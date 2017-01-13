@@ -8,8 +8,6 @@ class Program(models.Model):
     CODE = {
         'Youth Program':YOUTH_PROGRAM,
     }
-    
-    Code, Display
     PROGRAM_TYPE_CHOICES = tuple([(choice, CODE[choice]) for choice in ['Youth Program']])
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
