@@ -91,6 +91,7 @@ class UserTester():
                 number=group_id
             )
             group.save()
+            print 'Created Group #'+group_id
             for name in guest_names[group_id::num_of_groups]:
                 guest = Guest(
                     group=group,
