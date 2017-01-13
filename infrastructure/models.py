@@ -34,6 +34,6 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=30)
     start_date = models.DateField(auto_now=False, auto_now_add=False)
     end_date = models.DateField(auto_now=False, auto_now_add=False)
-    qualifications = models.ManyToManyField(infrastructure_models.Activity, blank=True)
+    qualifications = models.ManyToManyField(Activity, blank=True)
     def __str__(self):
         return self.last_name + ', ' + self.first_name
