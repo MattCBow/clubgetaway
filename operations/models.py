@@ -4,7 +4,12 @@ from django.db import models
 from infrastructure.models import *
 
 class Program(models.Model):
-    program_type = models.ForeignKey(ProgramType, related_name='programs')
+    YOUTH_PROGRAM = 'YP'
+    CHOICE = {
+        YOUTH_PROGRAM:'YP',
+    }
+    PROGRAM_TYPE_CHOICES = tuple([(code, CHOICE[code]) for code in [YOUTH_PROGRAM]])
+    program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
     start_date = models.DateField(auto_now=False, auto_now_add=False)
     end_date = models.DateField(auto_now=False, auto_now_add=False)

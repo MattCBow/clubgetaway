@@ -76,7 +76,6 @@ class UserTester():
 
 
     def create_program(self, program_type_name, program_name, start_date, end_date, guest_names):
-        program_type = ProgramType.objects.filter(name=program_type_name)[0]
         program = Program(
             name=program_name,
             program_type=program_type,
@@ -99,9 +98,9 @@ class UserTester():
                 )
                 guest.save()
 
-    def generate_program(self, program_type_name, program_name, start_date, end_date, number_of_guests):
+    def generate_program(self, program_type, program_name, start_date, end_date, number_of_guests):
         return self.create_program(
-            program_type_name=program_type_name,
+            program_type_name=program_type,
             program_name=program_name,
             start_date=start_date,
             end_date=end_date,
@@ -112,7 +111,7 @@ class UserTester():
 from scheduler.generator import *
 test = UserTester()
 test.generate_program(
-    program_type_name='Youth Program',
+    program_type_name='YP',
     program_name='My First Program',
     start_date='2017-01-01',
     end_date='2017-01-02',

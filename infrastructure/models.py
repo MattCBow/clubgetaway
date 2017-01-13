@@ -27,4 +27,4 @@ class Activity(models.Model):
     capacity = models.IntegerField()
     activity_level = models.IntegerField()
     def __str__(self):
-        return str(self.zone) + ' ----- '+str(self.name) + '('+str(self.capacity) + ') -> ' + str(self.activity_level)
+        return str(self.zone) + ' ----- '+str(self.name) + '('+str(self.capacity) + ') LEVEL ' + str(self.activity_level)
