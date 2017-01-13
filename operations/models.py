@@ -8,7 +8,7 @@ class Program(models.Model):
     CODE = {
         'Youth Program':YOUTH_PROGRAM,
     }
-    PROGRAM_TYPE_CHOICES = tuple([(choice, CODE[choice]) for choice in ['Youth Program']])
+    PROGRAM_TYPE_CHOICES = tuple([(CODE[choice], choice) for choice in ['Youth Program']])
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
     start_date = models.DateField(auto_now=False, auto_now_add=False)
