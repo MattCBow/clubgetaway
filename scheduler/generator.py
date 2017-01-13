@@ -109,9 +109,10 @@ class UserTester():
 
 '''
 from scheduler.generator import *
+from operations.models import *
 test = UserTester()
 test.generate_program(
-    program_type_name='YP',
+    program_type_name=Program.CODE['Youth Program'],
     program_name='My First Program',
     start_date='2017-01-01',
     end_date='2017-01-02',
