@@ -15,7 +15,7 @@ class Group(models.Model):
     program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='groups')
     number = models.IntegerField()
     def __str__(self):
-        return str(self.program)+' ('+str(number)+')'
+        return str(self.program)+' ('+str(self.number)+')'
 
 class Guest(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='guests')
