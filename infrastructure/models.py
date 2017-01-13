@@ -22,18 +22,9 @@ class Zone(models.Model):
         return self.name
 
 class Activity(models.Model):
+    zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='activities')
     name = models.CharField(max_length=30, unique=True)
     capacity = models.IntegerField()
-    zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='activities')
     activity_level = models.IntegerField()
     def __str__(self):
-        return self.name + ' ----- '+str(self.zone) + '('+str(self.capacity) + ') -> ' + str(self.activity_level)
-
-class Employee(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    start_date = models.DateField(auto_now=False, auto_now_add=False)
-    end_date = models.DateField(auto_now=False, auto_now_add=False)
-    qualifications = models.ManyToManyField(Activity, blank=True)
-    def __str__(self):
-        return self.last_name + ', ' + self.first_name
+        return str(self.zone) + ' ----- '+str(self.name) + '('+str(self.capacity) + ') -> ' + str(self.activity_level)
