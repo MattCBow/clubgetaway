@@ -71,8 +71,8 @@ class UserTester():
             name = {}
             name['first'] = random.choice(self.first_names)
             name['last'] = random.choice(self.last_names)
-            print name
             names += name
+        print names
         return names
 
 
