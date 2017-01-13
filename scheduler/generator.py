@@ -92,8 +92,6 @@ class UserTester():
             )
             group.save()
             for name in guest_names[group_id::num_of_groups]:
-                print name
-                print type(name)
                 guest = Guest(
                     group=group,
                     first_name=name['first'],
