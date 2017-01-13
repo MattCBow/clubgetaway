@@ -85,16 +85,12 @@ class UserTester():
         )
         program.save()
         num_of_groups = (len(guest_names)/program_type.group_capacity)+1
-        print str(program_type.group_capacity)
-        print str(len(guest_names))
-        print str(num_of_groups)
         for group_id in range(num_of_groups):
             group = Group(
                 program=program,
                 number=(group_id+1)
             )
             group.save()
-            print 'Created Group #'+str(group_id)
             for name in guest_names[group_id::num_of_groups]:
                 guest = Guest(
                     group=group,
@@ -117,7 +113,7 @@ from scheduler.generator import *
 test = UserTester()
 test.generate_program(
     program_type_name='Youth Program',
-    program_name='First Program',
+    program_name='My First Program',
     start_date='2017-01-01',
     end_date='2017-01-02',
     number_of_guests=100
