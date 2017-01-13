@@ -75,15 +75,16 @@ class UserTester():
         return names
 
 
-    def create_program(self, program_type, program_name, start_date, end_date, guest_names):
+    def create_program(self, program_type, program_name, group_capacity, start_date, end_date, guest_names):
         program = Program(
             name=program_name,
             program_type=program_type,
+            group_capacity=group_capacity,
             start_date=start_date,
             end_date=end_date
         )
         program.save()
-        num_of_groups = (len(guest_names)/program_type.group_capacity)+1
+        num_of_groups = (len(guest_names)/group_capacity)+1
         for group_id in range(num_of_groups):
             group = Group(
                 program=program,
@@ -98,10 +99,11 @@ class UserTester():
                 )
                 guest.save()
 
-    def generate_program(self, program_type, program_name, start_date, end_date, number_of_guests):
+    def generate_program(self, program_type, program_name, group_capacity, start_date, end_date, number_of_guests):
         return self.create_program(
             program_type=program_type,
             program_name=program_name,
+            group_capacity=group_capacity,
             start_date=start_date,
             end_date=end_date,
             guest_names=self.generate_names(number_of_guests)
@@ -114,6 +116,7 @@ test = UserTester()
 test.generate_program(
     program_type=Program.CODE['Youth Program'],
     program_name='My First Program',
+    group_capacity=25,
     start_date='2017-01-01',
     end_date='2017-01-02',
     number_of_guests=100
