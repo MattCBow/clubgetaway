@@ -5,10 +5,12 @@ from infrastructure.models import *
 
 class Program(models.Model):
     YOUTH_PROGRAM = 'YP'
-    CHOICE = {
-        YOUTH_PROGRAM:'Youth Program',
+    CODE = {
+        'Youth Program':YOUTH_PROGRAM,
     }
-    PROGRAM_TYPE_CHOICES = tuple([(code, CHOICE[code]) for code in [YOUTH_PROGRAM]])
+    
+    Code, Display
+    PROGRAM_TYPE_CHOICES = tuple([(choice, CODE[choice]) for choice in ['Youth Program']])
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
     start_date = models.DateField(auto_now=False, auto_now_add=False)
