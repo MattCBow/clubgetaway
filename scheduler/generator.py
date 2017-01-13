@@ -71,6 +71,7 @@ class UserTester():
             name = {}
             name['first'] = random.choice(self.first_names)
             name['last'] = random.choice(self.last_names)
+            print name
             names += name
         return names
 
@@ -84,6 +85,7 @@ class UserTester():
             end_date=end_date
         )
         program.save()
+        print guest_names
         num_of_groups = (program_type.group_capacity/len(guest_names))+1
         for group_id in range(num_of_groups):
             group = Group(
