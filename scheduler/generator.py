@@ -84,7 +84,7 @@ class UserTester():
             end_date=end_date
         )
         program.save()
-        group_size = (program_type.group_capacity/len(names))+1
+        group_size = (program_type.group_capacity/len(guest_names))+1
         groups = [guest_names[i::group_size] for i in range(group_size)]
         for group_id in len(groups):
             group = Group(
