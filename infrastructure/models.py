@@ -17,7 +17,7 @@ class Period(models.Model):
 
 class Zone(models.Model):
     name = models.CharField(max_length=30)
-    adjacent_zones = models.ManyToManyField('self', blank=True)
+    adjacent_zones = models.ManyToManyField('self', blank=True, symmetrical=True)
     def __str__(self):
         return self.name
 
