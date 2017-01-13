@@ -28,4 +28,4 @@ class Activity(models.Model):
     activity_level = models.IntegerField(blank=True, null=True)
     availability = models.ManyToManyField(Period, blank=True,)
     def __str__(self):
-        return self.name + ' (' + str(self.capacity) + ')'
+        return self.name + ' (' + str(self.capacity) + ')' + ' --- ' + str(self.zone)
