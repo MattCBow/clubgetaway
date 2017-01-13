@@ -75,15 +75,16 @@ class UserTester():
         return names
 
 
-    def create_program(self, program_type, program_name, start_date, end_date, guest_names):
+    def create_program(self, program_type_name, program_name, start_date, end_date, guest_names):
+        program_type = ProgramType.objects.filter(name=program_type_name)[0]
         program = Program(
             name='here',
-            program_type=ProgramType.objects.filter(name=program_type)[0],
+            program_type=program_type,
             start_date=start_date,
             end_date=end_date
         )
         program.save()
-        group_size = (youth_program.group_capacity/len(names))+1
+        group_size = (program_type.group_capacity/len(names))+1
         groups = [guest_names[i::group_size] for i in range(group_size)]
         for group_id in len(groups):
             group = Group(
@@ -99,9 +100,9 @@ class UserTester():
                 )
                 guest.save()
 
-    def generate_program(self, program_type, program_name, start_date, end_date, number_of_guests):
+    def generate_program(self, program_type_name, program_name, start_date, end_date, number_of_guests):
         return self.create_program(
-            program_type=program_type,
+            program_type_name=program_type_name,
             program_name=program_name,
             start_date=start_date,
             end_date=end_date,
@@ -112,7 +113,7 @@ class UserTester():
 from scheduler.generator import *
 test = UserTester()
 test.generate_program(
-    program_type='Youth Program',
+    program_type_name='Youth Program',
     program_name='First Program',
     start_date='2017-01-01',
     end_date='2017-01-02',
