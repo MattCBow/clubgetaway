@@ -69,8 +69,8 @@ class UserTester():
         names = []
         for i in range(num_of_names):
             name = {}
-            name.first = random.choice(self.first_names)
-            name.last = random.choice(self.last_names)
+            name[first] = random.choice(self.first_names)
+            name[last] = random.choice(self.last_names)
             names += name
         return names
 
@@ -109,7 +109,9 @@ class UserTester():
         )
 
 '''
-self.generate_program(
+from scheduler.generator import *
+test = UserTester()
+test.generate_program(
     program_type='Youth Program',
     program_name='First Program',
     start_date='2017-01-01',
