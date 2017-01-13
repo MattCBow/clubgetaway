@@ -84,7 +84,7 @@ class UserTester():
             end_date=end_date
         )
         program.save()
-        num_of_groups = (program_type.group_capacity/len(guest_names))+1
+        num_of_groups = (len(guest_names)/program_type.group_capacity)+1
         print str(program_type.group_capacity)
         print str(len(guest_names))
         print str(num_of_groups)
