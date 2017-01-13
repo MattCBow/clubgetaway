@@ -77,22 +77,19 @@ WSGI_APPLICATION = 'clubgetaway.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'clubgetaway',
-        'USER': 'clubgetaway',
+        'USER': 'clubgetaway_dev',
         'PASSWORD': 'clubgetaway4$DEV',
         'HOST': 'localhost',
         'PORT': '',
+    }
+    'testing': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
