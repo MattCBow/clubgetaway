@@ -229,10 +229,20 @@ from infrastructure.models import *
 zone_query = Zone.objects.all()
 
 zones = []
-for zone in zone_query
+graph = {}
+
+for zone in zone_query:
     z = {}
     z['name'] = zone.name
-    z['capacity'] =
+    z['capacity'] = 0
+    z['level'] = 0
+    for activity in zone.activities.all():
+        z['capacity'] += activity.capacity
+        z['level'] += activity.level * activity.capacity
+    z['level'] /= z['capacity']
+    graph[zone.name]={neighbor.name : 1  for neighbor in zone.adjacent_zones}
+    zones += z
+
 
 
 '''

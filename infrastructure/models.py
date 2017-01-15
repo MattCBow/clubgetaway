@@ -19,6 +19,6 @@ class Activity(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='activities')
     name = models.CharField(max_length=30, unique=True)
     capacity = models.IntegerField()
-    activity_level = models.IntegerField()
+    level = models.IntegerField()
     def __str__(self):
         return str(self.zone) + ' ----- '+str(self.name) + '('+str(self.capacity) + ') LEVEL ' + str(self.activity_level)
