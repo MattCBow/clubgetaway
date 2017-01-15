@@ -14,15 +14,15 @@ class Zone(models.Model):
     adjacent_zones = models.ManyToManyField(
         'self',
         blank=True,
-        symmetrical=False,
+        symmetrical=True,
         through='Path'
         )
     def __str__(self):
         return self.name
 
 class Path(models.Model):
-    origin = models.ForeignKey(Zone, on_delete=models.CASCADE)
-    destination = models.ForeignKey(Zone, on_delete=models.CASCADE)
+    origin = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='to')
+    destination = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='from')
     distance = models.IntegerField()
 
 
