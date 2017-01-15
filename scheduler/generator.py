@@ -109,7 +109,109 @@ class UserTester():
             guest_names=self.generate_names(number_of_guests)
         )
 
+def floydwarshall(graph):
+
+    # Initialize dist and pred:
+    # copy graph into dist, but add infinite where there is
+    # no edge, and 0 in the diagonal
+    dist = {}
+    pred = {}
+    for u in graph:
+        dist[u] = {}
+        pred[u] = {}
+        for v in graph:
+            dist[u][v] = 1000
+            pred[u][v] = -1
+        dist[u][u] = 0
+        for neighbor in graph[u]:
+            dist[u][neighbor] = graph[u][neighbor]
+            pred[u][neighbor] = u
+
+    for t in graph:
+        # given dist u to v, check if path u - t - v is shorter
+        for u in graph:
+            for v in graph:
+                newdist = dist[u][t] + dist[t][v]
+                if newdist < dist[u][v]:
+                    dist[u][v] = newdist
+                    pred[u][v] = pred[t][v] # route new path through t
+
+    return dist
+
+
+
+def hueristic(schedule, period, group, zone):
+    visits = 0.0
+    for prev_period in range(period):
+        if schedule[prev_period][group]['assigment'] is zone:
+            visits += 1
+    p_vists = visits/period
+    visitors = 0.0
+    for prev_group in range(group):
+        if schedule[period][prev_group]['assigment'] is zone:
+            visitors += 1
+    p_visitors = visitors/zone['capacity']
+    distance = 1
+    if period is not 0
+        distance = distance[zone['name']][schedule[period-1][group]['assigment']['name']]
+    factors = {}
+    factor['level'] = (zone['activity_level'])
+    factor['distance'] = zone['distance-to'][schedule[period-1][group]['name']]
+    factor['visits'] = (1-p_visits)
+    factor['visitors'] = (1-p_visitors)
+    return (1.0)*factor['activity'] + (1.0)*factor['distance'] + (1.0)*factor['visits'] + (1.0)*factor['visitors']
+
+
+
+def create_schedule(periods, groups, zones):
+    schedule = [[{'assignmnet':None, 'hueristic':None} for group in range(groups)] for period in range(periods)]
+    for period in range(periods):
+        for group in range(groups):
+
+            if schedule[period][group]['hueristic'] is None:
+                schedule[period][group]['hueristic'] = [hueristic(schedule, period, group, zone) for zone in zones]
+
+            #Backtrack if out of possibilities
+            if sum(schedule[period][group]['hueristic']) is 0:
+                if group is 0:
+                    period -=1
+                else
+                    group -=1
+
+            #Make probability distribution equal to  1
+            p = schedule[period][group]['hueristic'] / sum(schedule[period][group]['hueristic']))
+            schedule[period][group]['assignmnet'] = np.random.choice(zones, p)
+    return schedule
+
+
+
 '''
+import numpy as np
+
+Periods = integer
+Groups = integer
+Zones = [{'name':(...), 'capacity':(...), 'weight':(...) 'adjacent_zones':(...)} for zone in zones]
+Assigment = {'zone_assigned':(...), 'probabilities':{zone1:p1, zone2:p2, ... zoneN:pN}}
+
+
+zones = [{'name':zone} for zone in range(10)]
+np.random.choice(zones, p=[1.0/len(zones) for zone in zones])
+
+graph = {0 : {1:6, 2:8},
+         1 : {4:11},
+         2 : {3: 9},
+         3 : {},
+         4 : {5:3},
+         5 : {2: 7, 3:4}}
+
+dist, pred = floydwarshall(graph)
+print 'Predecesors in shortest path:'
+for v in pred:
+    print '%s: %s' % (v, pred[v])
+print 'Shortest distance from each vertex:'
+for v in dist:
+    print '%s: %s' % (v, dist[v])
+
 from scheduler.generator import *
 from operations.models import *
 test = UserTester()
@@ -121,4 +223,16 @@ test.generate_program(
     end_date='2017-01-02',
     number_of_guests=100
 )
+
+
+from infrastructure.models import *
+zone_query = Zone.objects.all()
+
+zones = []
+for zone in zone_query
+    z = {}
+    z['name'] = zone.name
+    z['capacity'] =
+
+
 '''
