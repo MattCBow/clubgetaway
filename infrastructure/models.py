@@ -11,20 +11,9 @@ class Period(models.Model):
 
 class Zone(models.Model):
     name = models.CharField(max_length=30)
-    adjacent_zones = models.ManyToManyField(
-        'self',
-        blank=True,
-        symmetrical=True,
-        through='Path'
-        )
+    adjacent_zones = models.ManyToManyField('self', blank=True, symmetrical=True)
     def __str__(self):
         return self.name
-
-class Path(models.Model):
-    origin = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='from')
-    destination = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='to')
-    distance = models.IntegerField()
-
 
 class Activity(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='activities')
