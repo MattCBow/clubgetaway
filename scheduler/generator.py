@@ -240,7 +240,7 @@ for zone in zone_query:
         z['capacity'] += activity.capacity
         z['level'] += activity.level * activity.capacity
     z['level'] /= z['capacity']
-    graph[zone.name]={neighbor.name : 1  for neighbor in zone.adjacent_zones}
+    graph[zone.name]={neighbor.name : 1  for neighbor in zone.adjacent_zones.all()}
     zones += z
 
 
