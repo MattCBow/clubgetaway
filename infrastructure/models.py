@@ -21,8 +21,8 @@ class Zone(models.Model):
         return self.name
 
 class Path(models.Model):
-    origin = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='to')
-    destination = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='from')
+    origin = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='from')
+    destination = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='to')
     distance = models.IntegerField()
 
 
