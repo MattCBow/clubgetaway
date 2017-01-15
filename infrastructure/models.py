@@ -14,7 +14,7 @@ class Zone(models.Model):
     adjacent_zones = models.ManyToManyField(
         'self',
         blank=True,
-        symmetrical=True
+        symmetrical=True,
         through='Path'
         )
     def __str__(self):
