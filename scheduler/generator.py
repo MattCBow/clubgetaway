@@ -240,7 +240,7 @@ def create_schedule(periods, groups):
                     print 'NO POSSIBLE SCHEDULES'
                     return None
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
-                hueristics[period][group][schedule[period-1][group]] = 0
+                hueristics[period][group][schedule[period][group]] = 0
                 f = sum(hueristics[period][group].values())
             p = [(hueristics[period][group][z]/f)  for z in choices]
             c = range(len(p))
