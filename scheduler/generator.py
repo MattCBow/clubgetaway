@@ -192,7 +192,7 @@ def format_zone_query(zone_query):
 
 
 def calculate_hueristics(schedule, period, group, zones):
-    cur_hueristics = {}
+    choice_hueristics = {}
     visits = {zone:0.0 for zone in zones.keys()}
     for prev_group in range(group): visits[schedule[prev_period][group]] += 1
     visitors = {zone:0.0 for zone in zones.keys()}
@@ -205,8 +205,8 @@ def calculate_hueristics(schedule, period, group, zones):
         f_proximity = 1
         if prev_zone is not None:
             f_proximity = zones[prev_zone]['proximity'][zone]
-        cur_hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
-    return cur_hueristics
+        choice_hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
+    return choice_hueristics
 
 def create_schedule(periods, groups):
     zones = format_zone_query(Zone.objects.all())
