@@ -261,7 +261,7 @@ def print_schedule(schedule):
         'The Plateau' :'PL',
         'Waterfront' :'FR',
         'White Tent' :'TE',
-        'The Valley':'VA'
+        'The Valley':'VA',
         'Moose Lodge Area' :'ML',
         'Mountain View Field' :'MV',
     }
