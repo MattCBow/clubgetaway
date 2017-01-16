@@ -208,7 +208,7 @@ def calculate_hueristics(schedule, period, group, zones):
         f[zone]['capacity'] = zones[zone]['capacity']
         f[zone]['visits'] = visits[zone]
         f[zone]['visitors'] = visitors[zone]
-        f[zone]['occupancy'] = 1.0*(f[zone]['capacity']f[zone]['visitors'])/f[zone]['capacity'])
+        f[zone]['occupancy'] = 1.0*(f[zone]['capacity'] - f[zone]['visitors'])/f[zone]['capacity'])
         f[zone]['proximity'] = 0.0
         if prev_zone is not None:
             f[zone]['proximity'] = zones[prev_zone]['proximity'][zone]
