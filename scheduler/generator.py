@@ -227,7 +227,8 @@ def create_schedule(periods, groups):
         for group in range(groups):
             if hueristics[period][group] is None:
                 hueristics[period][group], factors[period][group] = calculate_hueristics(schedule, period, group, zones)
-            if sum(hueristics[period][group].values()) is 0:
+            f = sum(hueristics[period][group].values())
+            while f is 0:
                 if group is not 0:
                     group -=1
                 elif period is 0:
@@ -238,7 +239,7 @@ def create_schedule(periods, groups):
                     return None
                 print 'BACKTRACKING --- ['+str(period)+']['+str(group)+']'
                 hueristics[period][group][schedule[period][group]] = 0
-            f = sum(hueristics[period][group].values())
+                f = sum(hueristics[period][group].values())
             p = [(hueristics[period][group][z]/f)  for z in choices]
             c = range(len(p))
             i = np.random.choice(c, p=p)
