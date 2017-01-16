@@ -254,16 +254,16 @@ def create_schedule(periods, groups):
 
 def print_schedule(schedule):
     nickname = {
-        'Adventure Woods' :'AW',
-        'Adventure Base Camp' :'AB',
-        'Waterside Village' :'WV',
-        'Waterside Tent' :'WT',
-        'The Plateau' :'PL',
-        'Waterfront' :'FR',
-        'White Tent' :'TE',
-        'The Valley':'VA',
-        'Moose Lodge Area' :'ML',
-        'Mountain View Field' :'MV',
+        'Adventure Woods' : 'Adventure Woods',
+        'Adventure Base Camp' :'Adventure Base Camp',
+        'Waterside Village' :'Waterside Village',
+        'Waterside Tent' :'Waterside Tent',
+        'The Plateau' :'The Plateau\t',
+        'Waterfront' :'Waterfront\t',
+        'White Tent' :'White Tent\t',
+        'The Valley':'The Valley\t',
+        'Moose Lodge Area' :'Moose Lodge Area',
+        'Mountain View Field' :'Mountain View Field',
     }
 
     print 'GROUP:\t\t',
@@ -273,11 +273,11 @@ def print_schedule(schedule):
     for period in range(len(schedule)):
         print 'PERIOD: [', str(period), ']\t',
         for group in range(len(schedule[0])):
-            print '[',str(schedule[period][group]), ']\t',
+            print '[',str(nickname[schedule[period][group]]), ']\t',
         print ''
 '''
 from scheduler.generator import *
-s, h, f = create_schedule(10,10)
+s, h, f = create_schedule(6,6)
 print_schedule(s)
 
 '''
