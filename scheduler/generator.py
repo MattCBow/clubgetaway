@@ -264,7 +264,7 @@ def print_schedule(schedule):
             for c in schedule[period][group]:
                 if c.isupper():
                     nickname.append(c)
-            print '['.join(nickname), ']\t',
+            print '[',''.join(nickname), ']\t',
         print ''
 '''
 from scheduler.generator import *
