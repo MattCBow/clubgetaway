@@ -192,8 +192,8 @@ def format_zone_query(zone_query):
 
 
 def calculate_hueristics(schedule, period, group, zones):
-    choice_hueristics = {}
-    choice_factors = {}
+    h = {}
+    f = {}
     visits = {zone:0.0 for zone in zones.keys()}
     for prev_period in range(period):
         visits[schedule[prev_period][group]] += 1
@@ -202,21 +202,20 @@ def calculate_hueristics(schedule, period, group, zones):
         visitors[schedule[period][prev_group]] += 1
     prev_zone = schedule[period-1][group]
     for zone in zones.keys():
-        f_level = zones[zone]['level']/5.0
-        f_occupancy = 1.0 - (1.0*visitors[zone]/zones[zone]['capacity'])
-        f_visits = 1.0
-        if period is not 0:
-            f_visits = 1.0 - (1.0*visits[zone]/period)
-        f_proximity = 1.0
-        if prev_zone is not None and zones[prev_zone]['proximity'][zone] is not 1.0:
-            f_proximity = 0.0
-        choice_hueristics[zone] = (1.0*f_proximity) * (1.0*f_visits) * (1.0*f_occupancy) * (1.0*f_level)
-        choice_factors[zone] = {}
-        choice_factors[zone]['level'] = f_level
-        choice_factors[zone]['occupancy'] = f_occupancy
-        choice_factors[zone]['visits'] = f_visits
-        choice_factors[zone]['proximity'] = f_proximity
-    return choice_hueristics, choice_factors
+        h[zone] = 0
+        f[zone] = {}
+        f[zone]['level'] = zones[zone]['level']/5.0
+        f[zone]['capacity'] = zones[zone]['capacity']
+        f[zone]['visits'] = visits[zone]
+        f[zone]['visitors'] = visitors[zone]
+        f[zone]['occupancy'] = 1.0*(f[zone]['capacity']f[zone]['visitors'])/f[zone]['capacity'])
+        f[zone]['proximity'] = 0.0
+        if prev_zone is not None:
+            f[zone]['proximity'] = zones[prev_zone]['proximity'][zone]
+            f[zone]['proximity']
+        if f[zone]['occupancy'] is not 0.0 and f[zone]['occupancy'] is 0.0 and f[zone]['proximity'] is 1.0:
+            h[zone] = (1.0*f[zone]['proximity']) + (1.0*f[zone]['occupancy']) + (1.0*f[zone]['level'])
+    return h, f
 
 def create_schedule(periods, groups):
     zones = format_zone_query(Zone.objects.all())
