@@ -210,7 +210,7 @@ def calculate_hueristics(schedule, period, group, zones):
             f_proximity = zones[prev_zone]['proximity'][zone]
         choice_hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
         choice_factors[zone] = {}
-        choice_factors[zone]['level'] = f_proximity
+        choice_factors[zone]['proximity'] = f_proximity
         choice_factors[zone]['visits'] = f_visits
         choice_factors[zone]['visitors'] = f_visitors
         choice_factors[zone]['level'] = f_level
@@ -247,5 +247,5 @@ def create_schedule(periods, groups):
 
 '''
 from scheduler.generator import *
-s, h, c = create_schedule(10,10)
+s, h, f = create_schedule(10,10)
 '''
