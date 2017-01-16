@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from operations.models import *
 from infrastructure.models import *
 import random
+import numpy as np
 
 class UserTester():
     first_names = [
@@ -199,6 +200,8 @@ def calculate_hueristics(schedule, period, group, zones):
     prev_zone = schedule[period-1][group]
     for zone in zones.keys():
         f_level = zones[zone]['level']
+        print prev_zone
+        print zones[prev_zone]['proximity']
         f_proximity = zones[prev_zone]['proximity'][zone]
         f_visits = visits[zone]
         f_visiors = visitors[zone]
@@ -233,7 +236,3 @@ def create_schedule(periods, groups):
             p = [hueristics[period][group][zone] / p_factor  for zone in choices]
             schedule[period][group] = np.random.choice(zones.keys(), p)
     return schedule
-
-import numpy as np
-from infrastructure.models import *
-schedule = create_schedule(10,10)
