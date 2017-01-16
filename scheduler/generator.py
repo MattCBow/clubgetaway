@@ -210,7 +210,7 @@ def calculate_hueristics(schedule, period, group, zones):
         f_proximity = 1.0
         if prev_zone is not None and zones[prev_zone]['proximity'][zone] is not 1.0:
             f_proximity = 0.0
-        choice_hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
+        choice_hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_occupancy) + (1.0*f_level)
         choice_factors[zone] = {}
         choice_factors[zone]['level'] = f_level
         choice_factors[zone]['occupancy'] = f_occupancy
