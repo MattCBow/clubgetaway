@@ -200,11 +200,11 @@ def calculate_hueristics(schedule, period, group, zones):
     prev_zone = schedule[period-1][group]
     for zone in zones.keys():
         f_level = zones[zone]['level']
-        print prev_zone
-        print zones[prev_zone]
-        f_proximity = zones[prev_zone]['proximity'][zone]
         f_visits = visits[zone]
         f_visiors = visitors[zone]
+        f_proximity = 1
+        if prev_zone is not None:
+            f_proximity = zones[prev_zone]['proximity'][zone]
         hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
     return hueristics
 
