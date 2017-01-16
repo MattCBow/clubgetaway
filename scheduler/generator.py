@@ -253,7 +253,7 @@ def create_schedule(periods, groups):
 
 
 def print_schedule(schedule):
-    print 'GROUP:\t'
+    print 'GROUP:\t\t',
     for group in range(len(schedule[0])):
         print '[', str(group), ']\t',
     print ''
