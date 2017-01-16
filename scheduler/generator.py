@@ -194,9 +194,13 @@ def format_zone_query(zone_query):
 def calculate_hueristics(schedule, period, group, zones):
     choice_hueristics = {}
     visits = {zone:0.0 for zone in zones.keys()}
-    for prev_period in range(group): visits[schedule[prev_period][group]] += 1
+    for prev_period in range(group):
+        print 'VISITS --- ['+str(prev_period)+']['+str(group)+']'
+        visits[schedule[prev_period][group]] += 1
     visitors = {zone:0.0 for zone in zones.keys()}
-    for prev_group in range(period): visitors[schedule[period][prev_group]] += 1
+    for prev_group in range(period):
+        print 'VISITORS --- ['+str(period)+']['+str(prev_group)+']'
+        visitors[schedule[period][prev_group]] += 1
     prev_zone = schedule[period-1][group]
     for zone in zones.keys():
         f_level = zones[zone]['level']
