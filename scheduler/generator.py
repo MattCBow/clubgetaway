@@ -231,5 +231,12 @@ def create_schedule(periods, groups):
                 hueristics[period][group][schedule[period][group]] = 0
             p_factor = sum(hueristics[period][group].values())
             p = [hueristics[period][group][zone] / p_factor  for zone in choices]
-            schedule[period][group] = np.random.choice(zones.keys(), p)
+            c = range(len(p))
+            choice = choices[np.random.choice(range(len(choices)), p)]
+            schedule[period][group] = choice
     return schedule
+
+'''
+from scheduler.generator import *
+s = create_schedule(10,10)
+'''
