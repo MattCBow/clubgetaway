@@ -255,11 +255,19 @@ def create_schedule(periods, groups):
 def print_schedule(schedule):
     print 'GROUP:\t'
     for group in range(len(schedule[0])):
-        print '[',str(group),']\t',
+        print '[', str(group), ']\t',
     print ''
-    for period in schedule:
-        print PERIOD:
+    for period in range(len(schedule)):
+        print 'PERIOD: [', str(period), ']\t',
+        for group in range(len(schedule[0])):
+            nickname = []
+            for c in schedule[period][group]:
+                if c.isupper():
+                    nickname.append(c)
+            print '[', str(nickname), ']\t',
+        print ''
 '''
 from scheduler.generator import *
 s, h, f = create_schedule(10,10)
+print_schedule(s)
 '''
