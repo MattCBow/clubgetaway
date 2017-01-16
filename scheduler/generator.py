@@ -234,7 +234,7 @@ def create_schedule(periods, groups):
             c = range(len(p))
             print c
             print p
-            i = np.random.choice(c, p)
+            i = np.random.choice(c, p=p)
             choice = choices[i]
             schedule[period][group] = choice
     return schedule
