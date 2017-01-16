@@ -213,7 +213,7 @@ def calculate_hueristics(schedule, period, group, zones):
         if prev_zone is not None:
             f[zone]['proximity'] = zones[prev_zone]['proximity'][zone]
             f[zone]['proximity']
-        if f[zone]['occupancy'] is not 0.0 and f[zone]['occupancy'] is 0.0 and f[zone]['proximity'] is 1.0:
+        if f[zone]['occupancy'] != 0.0 and f[zone]['visits'] == 0.0 and f[zone]['proximity'] == 1.0:
             h[zone] = (1.0*f[zone]['proximity']) + (1.0*f[zone]['occupancy']) + (1.0*f[zone]['level'])
     return h, f
 
@@ -228,9 +228,9 @@ def create_schedule(periods, groups):
             if hueristics[period][group] is None:
                 hueristics[period][group], factors[period][group] = calculate_hueristics(schedule, period, group, zones)
             f = sum(hueristics[period][group].values())
-            if f is 0.0:
+            if f == 0.0:
                 print '->f is 0.0'
-            while f is 0.0:
+            while f == 0.0:
                 print '------->f is 0.0'
                 if group is not 0:
                     group -=1
