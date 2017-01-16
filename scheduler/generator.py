@@ -255,14 +255,15 @@ def create_schedule(periods, groups):
 def print_schedule(schedule):
     nickname = {
         'Adventure Woods' :'AW',
-        'Waterfront' :'FR',
-        'The Plateau' :'TP',
-        'Mountain View Field' :'MV',
-        'Waterside Tent' :'WT',
-        'Waterside Village' :'WV',
-        'Moose Lodge Area' :'LA',
         'Adventure Base Camp' :'AB',
-        'White Tent' :'TN',
+        'Waterside Village' :'WV',
+        'Waterside Tent' :'WT',
+        'The Plateau' :'PL',
+        'Waterfront' :'FR',
+        'White Tent' :'TE',
+        'The Valley':'VA'
+        'Moose Lodge Area' :'ML',
+        'Mountain View Field' :'MV',
     }
 
     print 'GROUP:\t\t',
@@ -278,4 +279,5 @@ def print_schedule(schedule):
 from scheduler.generator import *
 s, h, f = create_schedule(10,10)
 print_schedule(s)
+
 '''
