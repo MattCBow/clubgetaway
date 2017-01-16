@@ -240,8 +240,6 @@ def create_schedule(periods, groups):
             f = sum(hueristics[period][group].values())
             p = [(hueristics[period][group][z]/f)  for z in choices]
             c = range(len(p))
-            print c
-            print p
             i = np.random.choice(c, p=p)
             choice = choices[i]
             schedule[period][group] = choice
