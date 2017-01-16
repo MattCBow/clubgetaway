@@ -192,7 +192,7 @@ def format_zone_query(zone_query):
 
 
 def calculate_hueristics(schedule, period, group, zones):
-    hueristics = {}
+    cur_hueristics = {}
     visits = {zone:0.0 for zone in zones.keys()}
     for prev_group in range(group): visits[schedule[prev_period][group]] += 1
     visitors = {zone:0.0 for zone in zones.keys()}
@@ -205,8 +205,8 @@ def calculate_hueristics(schedule, period, group, zones):
         f_proximity = 1
         if prev_zone is not None:
             f_proximity = zones[prev_zone]['proximity'][zone]
-        hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
-    return hueristics
+        cur_hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
+    return cur_hueristics
 
 def create_schedule(periods, groups):
     zones = format_zone_query(Zone.objects.all())
@@ -215,23 +215,20 @@ def create_schedule(periods, groups):
     hueristics = [[ None for group in range(groups)] for period in range(periods)]
     for period in range(periods):
         for group in range(groups):
+            print 'WORKING --- ['+str(period)+']['+str(group)+']'
             if hueristics[period][group] is None:
-                print 'Getting Hueristics ['+str(period)+']['+str(group)+']'
-                hueristics = calculate_hueristics(schedule, period, group, zones)
-                print 'Got Hueristics ['+str(period)+']['+str(group)+']'
-                hueristics[period][group] = hueristics
+                hueristics[period][group] = calculate_hueristics(schedule, period, group, zones)
             if sum(schedule[period][group]['hueristics'].values()) is 0:
-                print 'Backtracking'
                 if group is not 0:
                     group -=1
                 elif period is 0:
                     group = groups
                     period -=1
                 else:
-                    print 'No Possible Options'
+                    print 'NO POSSIBLE SCHEDULES'
                     return None
-                invalid_assignment = schedule[period][group]['assignment']
-                hueristics[period][group][invalid_assignment] = 0
+                print 'BACKTRACKING --- ['+str(period)+']['+str(group)+']'
+                hueristics[period][group][schedule[period][group]] = 0
             p_factor = sum(hueristics[period][group].values())
             p = [hueristics[period][group][zone] / p_factor  for zone in choices]
             schedule[period][group] = np.random.choice(zones.keys(), p)
