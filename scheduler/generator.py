@@ -223,8 +223,8 @@ def create_schedule(periods, groups):
     hueristics = [[ None for group in range(groups)] for period in range(periods)]
     factors = [[ None for group in range(groups)] for period in range(periods)]
     period = 0
-    group = 0
     while period < periods:
+        group = 0
         while group < groups:
             print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             if hueristics[period][group] is None:
@@ -249,7 +249,6 @@ def create_schedule(periods, groups):
             schedule[period][group] = choice
             group += 1
         period += 1
-        print period
     return schedule, hueristics, factors
 
 '''
