@@ -273,7 +273,7 @@ def print_schedule(schedule):
     for period in range(len(schedule)):
         print 'PERIOD: [', str(period), ']\t',
         for group in range(len(schedule[0])):
-            print '[',str(nickname[schedule[period][group]]), ']\t',
+            print '[',str(schedule[period][group]), ']\t',
         print ''
 '''
 from scheduler.generator import *
