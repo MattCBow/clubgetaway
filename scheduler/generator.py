@@ -234,7 +234,7 @@ def create_schedule(periods, groups):
                 if group is not 0:
                     group -=1
                 elif period is not 0:
-                    group = groups
+                    group = groups-1
                     period -=1
                 else:
                     print 'NO POSSIBLE SCHEDULES'
