@@ -201,7 +201,7 @@ def calculate_hueristics(schedule, period, group, zones):
     for zone in zones.keys():
         f_level = zones[zone]['level']
         f_visits = visits[zone]
-        f_visiors = visitors[zone]
+        f_visitors = visitors[zone]
         f_proximity = 1
         if prev_zone is not None:
             f_proximity = zones[prev_zone]['proximity'][zone]
