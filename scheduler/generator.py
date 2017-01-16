@@ -230,9 +230,9 @@ def create_schedule(periods, groups):
                 print 'BACKTRACKING --- ['+str(period)+']['+str(group)+']'
                 hueristics[period][group][schedule[period][group]] = 0
             p_factor = sum(hueristics[period][group].values())
-            p = [hueristics[period][group][zone] / p_factor  for zone in choices]
+            p = [(hueristics[period][group][zone] / p_factor)  for zone in choices]
             c = range(len(p))
-            choice = choices[np.random.choice(range(len(choices)), p)]
+            choice = choices[np.random.choice(c, p)]
             schedule[period][group] = choice
     return schedule
 
