@@ -218,7 +218,7 @@ def create_schedule(periods, groups):
             print 'WORKING --- ['+str(period)+']['+str(group)+']'
             if hueristics[period][group] is None:
                 hueristics[period][group] = calculate_hueristics(schedule, period, group, zones)
-            if sum(schedule[period][group]['hueristics'].values()) is 0:
+            if sum(hueristics[period][group].values()) is 0:
                 if group is not 0:
                     group -=1
                 elif period is 0:
