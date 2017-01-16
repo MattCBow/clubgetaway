@@ -249,6 +249,7 @@ def create_schedule(periods, groups):
             schedule[period][group] = choice
             group += 1
         period += 1
+        print period
     return schedule, hueristics, factors
 
 '''
