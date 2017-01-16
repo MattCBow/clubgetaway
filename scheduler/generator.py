@@ -193,13 +193,12 @@ def format_zone_query(zone_query):
 
 def calculate_hueristics(schedule, period, group, zones):
     choice_hueristics = {}
+    choice_factors = {}
     visits = {zone:0.0 for zone in zones.keys()}
     for prev_period in range(period):
-        print 'VISITS --- ['+str(prev_period)+']['+str(group)+']'
         visits[schedule[prev_period][group]] += 1
     visitors = {zone:0.0 for zone in zones.keys()}
     for prev_group in range(group):
-        print 'VISITORS --- ['+str(period)+']['+str(prev_group)+']'
         visitors[schedule[period][prev_group]] += 1
     prev_zone = schedule[period-1][group]
     for zone in zones.keys():
@@ -210,18 +209,22 @@ def calculate_hueristics(schedule, period, group, zones):
         if prev_zone is not None:
             f_proximity = zones[prev_zone]['proximity'][zone]
         choice_hueristics[zone] = (1.0*f_proximity) + (1.0*f_visits) + (1.0*f_visitors) + (1.0*f_level)
-    return choice_hueristics
+        choice_factors[zone]['level'] = f_proximity
+        choice_factors[zone]['visits'] = f_visits
+        choice_factors[zone]['visitors'] = f_visitors
+        choice_factors[zone]['level'] = f_level
+    return choice_hueristics, choice_factors
 
 def create_schedule(periods, groups):
     zones = format_zone_query(Zone.objects.all())
     choices = zones.keys()
     schedule = [[ None for group in range(groups)] for period in range(periods)]
     hueristics = [[ None for group in range(groups)] for period in range(periods)]
+    factors = [[ None for group in range(groups)] for period in range(periods)]
     for period in range(periods):
         for group in range(groups):
-            print 'WORKING --- ['+str(period)+']['+str(group)+']'
             if hueristics[period][group] is None:
-                hueristics[period][group] = calculate_hueristics(schedule, period, group, zones)
+                hueristics[period][group], factors[period][group] = calculate_hueristics(schedule, period, group, zones)
             if sum(hueristics[period][group].values()) is 0:
                 if group is not 0:
                     group -=1
@@ -241,9 +244,9 @@ def create_schedule(periods, groups):
             i = np.random.choice(c, p=p)
             choice = choices[i]
             schedule[period][group] = choice
-    return schedule
+    return schedule, hueristics, factors
 
 '''
 from scheduler.generator import *
-s = create_schedule(10,10)
+s, h, c = create_schedule(10,10)
 '''
