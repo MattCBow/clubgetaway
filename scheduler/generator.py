@@ -228,7 +228,7 @@ def create_schedule(periods, groups):
             if hueristics[period][group] is None:
                 hueristics[period][group], factors[period][group] = calculate_hueristics(schedule, period, group, zones)
             f = sum(hueristics[period][group].values())
-            while f is 0:
+            while f is 0.0:
                 if group is not 0:
                     group -=1
                 elif period is 0:
