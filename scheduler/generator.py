@@ -224,6 +224,7 @@ def create_schedule(periods, groups):
     factors = [[ None for group in range(groups)] for period in range(periods)]
     for period in range(periods):
         for group in range(groups):
+            print 'WORKING \t--- ['+str(period)+']['+str(group)+']'
             if hueristics[period][group] is None:
                 hueristics[period][group], factors[period][group] = calculate_hueristics(schedule, period, group, zones)
             f = sum(hueristics[period][group].values())
@@ -236,7 +237,7 @@ def create_schedule(periods, groups):
                 else:
                     print 'NO POSSIBLE SCHEDULES'
                     return None
-                print 'BACKTRACKING --- ['+str(period)+']['+str(group)+']'
+                print 'BACKTRACKING \t--- ['+str(period)+']['+str(group)+']'
                 hueristics[period][group][schedule[period-1][group]] = 0
                 f = sum(hueristics[period][group].values())
             print 'f = '+str(f)
