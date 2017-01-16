@@ -230,7 +230,7 @@ def create_schedule(periods, groups):
             while f == 0.0:
                 if group is not 0:
                     group -=1
-                elif period is 0:
+                elif period is not 0:
                     group = groups
                     period -=1
                 else:
