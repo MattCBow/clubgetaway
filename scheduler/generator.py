@@ -211,8 +211,8 @@ def calculate_hueristics(schedule, period, group, zones):
         f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
         f[zone]['proximity'] = 1.0
         if period != 0:
-            f[zone]['proximity'] = zones[prev_zone]['proximity'][zone]
-        if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0 and f[zone]['proximity'] == 1.0:
+            f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
+        if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0:
             h[zone] = (1.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return h, f
 
