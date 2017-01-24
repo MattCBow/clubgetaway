@@ -281,7 +281,7 @@ def print_schedule(schedule, factors):
             lvl = '['+  str( round((fct['level']*5),1)  )   +']'
             dst = '['+str(fct['proximity'])+']'
 
-            detail = '['+str(fct['proximity'])+']'+'['+str(fct['visitors'])+']'
+            detail = '['+str( round((fct['level']*5),1)  )+']'+'['+str(fct['visitors'])+']'
             print nn,detail,'\t',
         print ''
 '''
