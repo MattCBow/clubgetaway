@@ -282,7 +282,7 @@ def print_schedule(schedule, factors):
             dst = '['+str(fct['proximity'])+']'
 
             detail = '['+str(fct['proximity'])+']'+'['+str(fct['visits'])+']'
-            print nn,'\t\t',
+            print nn,'\t\t\t',
         print ''
 '''
 #[GROUP][PERIOD]
