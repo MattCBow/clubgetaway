@@ -273,12 +273,12 @@ def print_schedule(schedule, factors):
     for group in range(len(schedule[0])):
         print 'GROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
-            ass = schedule[period][group]
+            ass = schedule[group][period]
             nn = nickname[ass]
             fct = factors[group][period][ass]
-            cap = '[',str(fct['visits']),'/',str(fct['visits']),']'
-            lvl = '[',str(fct['level']*5),']'
-            dst = '[',str(fct['proximity']),']'
+            cap = str('[',str(fct['visits']),'/',str(fct['visits']),']')
+            lvl = str('[',str(fct['level']*5),']')
+            dst = str('[',str(fct['proximity']),']')
             print '[',nn,lvl,dst,cap,']\t',
         print ''
 '''
