@@ -278,7 +278,7 @@ def print_schedule(schedule, factors):
             fct = factors[group][period][ass]
             cap = '[',str(fct['visits']),'/',str(fct['visits']),']'
             lvl = '[',str(fct['level']*5),']'
-            dst = '[',str(fct['distance']),']'
+            dst = '[',str(fct['proximity']),']'
             print '[',nn,lvl,dst,cap,']\t',
         print ''
 '''
