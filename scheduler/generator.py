@@ -260,7 +260,7 @@ def print_schedule(schedule, factors):
         'Waterside Tent' :'Waterside Tent',
         'The Plateau' :'The Plateau\t',
         'Waterfront' :'Waterfront\t',
-        'White Tent' :'White Tent\t\t',
+        'White Tent' :'White Tent\t',
         'The Valley':'The Valley\t',
         'Moose Lodge Area' :'Moose Lodge Area',
         'Mountain View Field' :'Mountain View Field',
@@ -281,8 +281,8 @@ def print_schedule(schedule, factors):
             lvl = '['+  str( round((fct['level']*5),1)  )   +']'
             dst = '['+str(fct['proximity'])+']'
 
-            detail = '['+str(fct['proximity'])+']'+'['+str(fct['visits'])+']'
-            print nn,'\t\t\t',
+            detail = '['+str(fct['proximity'])+']'+'['+str(fct['visitors'])+']'
+            print nn,detail,'\t',
         print ''
 '''
 #[GROUP][PERIOD]
