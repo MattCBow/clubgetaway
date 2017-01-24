@@ -272,7 +272,7 @@ def print_schedule(schedule):
     print ''
     for group in range(len(schedule[0])):
         print 'GROUP: [', str(group), ']\t',
-        for group in range(len(schedule[0])):
+        for period in range(len(schedule)):
             print '[',str(nickname[schedule[period][group]]), ']\t',
         print ''
 '''
