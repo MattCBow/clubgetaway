@@ -252,7 +252,7 @@ def create_schedule(periods, groups):
     return schedule, hueristics, factors
 
 
-def print_schedule(schedule):
+def print_schedule(schedule, factors):
     nickname = {
         'Adventure Woods' : 'Adventure Woods',
         'Adventure Base Camp' :'Adventure Base Camp',
@@ -273,11 +273,18 @@ def print_schedule(schedule):
     for group in range(len(schedule[0])):
         print 'GROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
-            print '[',str(nickname[schedule[period][group]]), ']\t',
+            ass = schedule[period][group]
+            nn = nickname[ass]
+            fct = factors[group][period][ass]
+            cap = '[',str(fct['visits']),'/',str(fct['visits']),']'
+            lvl = '[',str(fct['level']*5),']'
+            dst = '[',str(fct['distance']),']'
+            print '[',nn,lvl,dst,cap,']\t',
         print ''
 '''
+#[GROUP][PERIOD]
 from scheduler.generator import *
 s, h, f = create_schedule(5,35)
-print_schedule(s)
+print_schedule(s, f)
 
 '''
