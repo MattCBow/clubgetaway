@@ -260,7 +260,7 @@ def print_schedule(schedule, factors):
         'Waterside Tent' :'Waterside Tent',
         'The Plateau' :'The Plateau\t',
         'Waterfront' :'Waterfront\t',
-        'White Tent' :'White Tent\t',
+        'White Tent' :'White Tent\t\t',
         'The Valley':'The Valley\t',
         'Moose Lodge Area' :'Moose Lodge Area',
         'Mountain View Field' :'Mountain View Field',
