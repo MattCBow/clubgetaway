@@ -280,7 +280,9 @@ def print_schedule(schedule, factors):
             cap = '['+str(fct['capacity'])+']'
             lvl = '['+  str( round((fct['level']*5),1)  )   +']'
             dst = '['+str(fct['proximity'])+']'
-            print nn,dst,cap,'\t',
+
+            detail = '['+str(fct['proximity'])+']','['+str(fct['capacity'])+']'
+            print nn,detail,'\t',
         print ''
 '''
 #[GROUP][PERIOD]
