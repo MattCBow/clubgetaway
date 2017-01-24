@@ -266,18 +266,18 @@ def print_schedule(schedule):
         'Mountain View Field' :'Mountain View Field',
     }
 
-    print 'GROUP:\t\t',
-    for group in range(len(schedule[0])):
-        print '[', str(group), ']\t\t\t',
-    print ''
+    print 'PERIOD:\t\t',
     for period in range(len(schedule)):
-        print 'PERIOD: [', str(period), ']\t',
+        print '[', str(period), ']\t\t\t',
+    print ''
+    for group in range(len(schedule[0])):
+        print 'GROUP: [', str(group), ']\t',
         for group in range(len(schedule[0])):
             print '[',str(nickname[schedule[period][group]]), ']\t',
         print ''
 '''
 from scheduler.generator import *
-s, h, f = create_schedule(6,6)
+s, h, f = create_schedule(5,35)
 print_schedule(s)
 
 '''
