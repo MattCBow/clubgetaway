@@ -266,7 +266,7 @@ def print_schedule(schedule):
         'Mountain View Field' :'Mountain View Field',
     }
 
-    print '\t\t\t',
+    print '\t\t',
     for period in range(len(schedule)):
         print 'PERIOD: [', str(1+period), ']\t\t',
     print ''
