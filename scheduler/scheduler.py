@@ -231,7 +231,7 @@ def print_schedule(schedule, zones):
         'Mountain View Field' :'Mountain View Field',
     }
 
-    visits = [[0 for z in range(len(zones)) ] for p in range(len(period))]
+    visits = [[0 for z in range(len(zones)) ] for p in range(len(schedule))]
     for p in range(period):
         for g in range(group):
             z = schedule[p][g]
