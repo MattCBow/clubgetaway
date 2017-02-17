@@ -242,7 +242,7 @@ def print_schedule(schedule, factors):
                 print ('['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'), nickname[ass], '\t',
             else:
                 print '\t\t\t',
-        print '\n'
+    print '\n'
 
 
 def create_schedule(periods, groups, choices):
