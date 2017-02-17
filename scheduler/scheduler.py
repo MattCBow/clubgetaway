@@ -237,8 +237,8 @@ def create_schedule(periods, groups, zones):
                     return None
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
-            p = [(factors[period][group][z]['hueristic']/viability)  for choice in choices]
-            schedule[period][group] = choice = choices[np.random.choice(range(len(p)), p=p)]
+            p = [(factors[period][group][choice]['hueristic']/viability)  for choice in choices]
+            schedule[period][group] = choices[np.random.choice(range(len(p)), p=p)]
             print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             group += 1
         period += 1
