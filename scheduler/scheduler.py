@@ -261,7 +261,7 @@ def create_schedule(periods, groups, choices):
                 factors[period][group] = calculate_factors(period, group, choices, schedule)
             t = sum([factors[period][group][key]['hueristic'] for key in keys])
             while t == 0.0:
-                if (time.time() - start_time)) > 60:
+                if (time.time() - start_time) > 60:
                     schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
                     factors = [[ None for group in range(groups)] for period in range(periods)]
                     period = 0
@@ -291,15 +291,14 @@ def create_schedule(periods, groups, choices):
             group += 1
         period += 1
     print_schedule(schedule, choices)
-    return schedule, choices
+    return schedule
 
 
 '''
 #[PERIOD][GROUP]
 from scheduler.scheduler import *
 choices = format_choices(Zone.objects.all())
-s,f = create_schedule(5,60, choices)
-print_schedule(s,f)
+s = create_schedule(5,60, choices)
 
 
 Assigment = {
