@@ -171,7 +171,7 @@ def floydwarshall(graph):
     return dist
 
 
-def format_zone_query(zone_query):
+def format_choices(zone_query):
     zones = {}
     graph = {}
     for zone in zone_query:
@@ -240,7 +240,6 @@ def create_schedule(periods, groups, choices):
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
             p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
-            print schedule
             schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
             print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             group += 1
@@ -283,7 +282,7 @@ def print_schedule(schedule, factors):
 '''
 #[GROUP][PERIOD]
 from scheduler.scheduler import *
-choices = format_zone_query(Zone.objects.all())
+choices = format_choices(Zone.objects.all())
 s, f = create_schedule(5,35, choices)
 print_schedule(s, f)
 
