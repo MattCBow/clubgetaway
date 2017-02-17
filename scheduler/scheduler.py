@@ -249,7 +249,7 @@ def print_schedule(schedule, factors):
                 dst = '['+str(fct['proximity'])+']'
 
                 detail = '['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'  # round((fct['level']),1)
-                print nn,detail,'\t',
+                print nn,detail,'\t\t',
             else:
                 print 'None\t\t\t',
         print ''
