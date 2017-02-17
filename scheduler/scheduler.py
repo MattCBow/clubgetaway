@@ -240,6 +240,7 @@ def create_schedule(periods, groups, choices):
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
             p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
+            print schedule
             schedule[period][group] = choices[np.random.choice(range(len(p)), p=p)]
             print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             group += 1
