@@ -220,20 +220,20 @@ def calculate_factors(period, group, zones, schedule):
 
 def print_schedule(schedule, factors):
     nickname = {
-        'Adventure Woods' : 'Adventure Woods\t',
+        'Adventure Woods' : 'Adventure Woods',
         'Adventure Base Camp' :'Adventure Base Camp',
-        'Waterside Village' :'Waterside Village\t',
-        'Waterside Tent' :'Waterside Tent\t',
-        'The Plateau' :'The Plateau\t\t',
-        'Waterfront' :'Waterfront\t\t',
-        'White Tent' :'White Tent\t\t',
-        'The Valley':'The Valley\t\t',
-        'Moose Lodge Area' :'Moose Lodge Area\t',
-        'Mountain View Field' :'Mountain View Field\t',
+        'Waterside Village' :'Waterside Village',
+        'Waterside Tent' :'Waterside Tent',
+        'The Plateau' :'The Plateau',
+        'Waterfront' :'Waterfront',
+        'White Tent' :'White Tent',
+        'The Valley':'The Valley',
+        'Moose Lodge Area' :'Moose Lodge Area',
+        'Mountain View Field' :'Mountain View Field',
     }
 
     for period in range(len(schedule)):
-        print '\t\t\t\tPERIOD: [', str(1+period), ']',
+        print '\t\t\tPERIOD: [', str(1+period), ']',
     for group in range(len(schedule[0])):
         print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
@@ -249,7 +249,7 @@ def print_schedule(schedule, factors):
                 detail = '['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'  # round((fct['level']),1)
                 print nn,detail,'\t',
             else:
-                print 'None\t\t\t',
+                print '\t\t\t',
 
 
 def create_schedule(periods, groups, choices):
