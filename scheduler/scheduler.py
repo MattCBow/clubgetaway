@@ -261,7 +261,7 @@ def create_schedule(periods, groups, choices):
             t = sum([factors[period][group][key]['hueristic'] for key in keys])
             #print 'FORWARD\t\t['+str(period)+']['+str(group)+'] - '+str(t)
             while t == 0.0:
-                attempt = encode_schedule(schedule)
+                attempt = encode_schedule(schedule, choices)
                 if attempts in attempts:
                     print 'OH FUCK'
                     return schedule, factors
