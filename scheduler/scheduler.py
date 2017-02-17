@@ -285,7 +285,7 @@ def print_schedule(schedule, factors):
         print ''
 '''
 #[GROUP][PERIOD]
-from scheduler.generator import *
+from scheduler.scheduler import *
 zones = format_zone_query(Zone.objects.all())
 s, h, f = create_schedule(5,35, zones)
 print_schedule(s, f)
