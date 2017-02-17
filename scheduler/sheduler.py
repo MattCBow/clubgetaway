@@ -216,8 +216,7 @@ def calculate_hueristics(schedule, period, group, zones):
             h[zone] = (10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return h, f
 
-def create_schedule(periods, groups):
-    zones = format_zone_query(Zone.objects.all())
+def create_schedule(periods, groups, zones):
     choices = zones.keys()
     schedule = [[ None for group in range(groups)] for period in range(periods)]
     hueristics = [[ None for group in range(groups)] for period in range(periods)]
@@ -287,7 +286,8 @@ def print_schedule(schedule, factors):
 '''
 #[GROUP][PERIOD]
 from scheduler.generator import *
-s, h, f = create_schedule(5,35)
+zones = format_zone_query(Zone.objects.all())
+s, h, f = create_schedule(5,35, zones)
 print_schedule(s, f)
 
 '''
