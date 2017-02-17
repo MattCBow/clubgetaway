@@ -290,8 +290,8 @@ def create_schedule(periods, groups, choices):
 
 def encode_schedule(schedule, choices):
     e_s = ''
-    for i in range(period):
-        for j in range(group):
+    for i in range(len(schedule)):
+        for j in range(len(schedule[]):
             e_s += choices.keys().index(schedule[i][j])
     return e_x
 
