@@ -280,7 +280,7 @@ def create_schedule(periods, groups, choices):
                     period = 0
                     group = 0
                     start_time = time.time()
-                print 'BACKWARD\t['+str(len(attempts))+']\t'+str(attempt[300:])
+                print 'BACKWARD\t['+str(len(period))+']['+str(len(group))+']\t',
             p = [(factors[period][group][key]['hueristic']/t) for key in keys]
             schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
             group += 1
