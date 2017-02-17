@@ -219,15 +219,15 @@ def calculate_factors(period, group, zones, schedule):
 
 def print_schedule(schedule, factors):
     nickname = {
-        'Adventure Woods' : 'Adventure Woods',
+        'Adventure Woods' : 'Adventure Woods\t',
         'Adventure Base Camp' :'Adventure Base Camp',
         'Waterside Village' :'Waterside Village',
-        'Waterside Tent' :'Waterside Tent',
-        'The Plateau' :'The Plateau',
-        'Waterfront' :'Waterfront',
-        'White Tent' :'White Tent',
-        'The Valley':'The Valley',
-        'Moose Lodge Area' :'Moose Lodge Area',
+        'Waterside Tent' :'Waterside Tent\t',
+        'The Plateau' :'The Plateau\t',
+        'Waterfront' :'Waterfront\t',
+        'White Tent' :'White Tent\t',
+        'The Valley':'The Valley\t',
+        'Moose Lodge Area' :'Moose Lodge Area\t',
         'Mountain View Field' :'Mountain View Field',
     }
 
