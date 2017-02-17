@@ -243,7 +243,7 @@ def print_schedule(schedule, zones):
         print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
             z = schedule[period][group]
-            print ('['+str(visitors[z][p])+'/'+str(int(zones[z]['capacity']))+']'), nickname[ass], '\t',
+            print ('['+str(visitors[z][p])+'/'+str(int(zones[z]['capacity']))+']'), nickname[z], '\t',
     print '\n'
 
 def create_schedule(periods, groups, choices):
