@@ -6,6 +6,7 @@ from operations.models import *
 from infrastructure.models import *
 import random
 import numpy as np
+import time
 
 class UserTester():
     first_names = [
@@ -251,16 +252,21 @@ def create_schedule(periods, groups, choices):
     schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
     factors = [[ None for group in range(groups)] for period in range(periods)]
     period = 0
-    attempts = []
+    group = 0
+    start_time = time.time()
     while period < periods:
         group = 0
         while group < groups:
             if factors[period][group] is None:
                 factors[period][group] = calculate_factors(period, group, choices, schedule)
             t = sum([factors[period][group][key]['hueristic'] for key in keys])
-            #print 'FORWARD\t\t['+str(period)+']['+str(group)+'] - '+str(t)
             while t == 0.0:
-                attempt = encode_schedule(schedule, choices)
+                if (time.time() - start_time)) > 60:
+                    schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
+                    factors = [[ None for group in range(groups)] for period in range(periods)]
+                    period = 0
+                    group = 0
+                    start_time = time.time()
                 if attempts in attempts:
                     print 'OH FUCK'
                     return schedule, factors
@@ -286,13 +292,6 @@ def create_schedule(periods, groups, choices):
         period += 1
     print_schedule(schedule, choices)
     return schedule, choices
-
-def encode_schedule(schedule, choices):
-    e_s = ''
-    for i in range(len(schedule)):
-        for j in range(len(schedule[0])):
-            e_s += str(choices.keys().index(schedule[i][j]))
-    return e_s
 
 
 '''
