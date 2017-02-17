@@ -276,7 +276,7 @@ def create_schedule(periods, groups, choices):
                     print 'NO POSSIBLE SCHEDULES'
                     return schedule, factors
                 prev_assignment = schedule[period][group]
-                schedule[period][group] = None
+                #schedule[period][group] = None
                 factors[period][group][prev_assignment]['hueristic'] = 0.0
                 t = sum([factors[period][group][key]['hueristic'] for key in keys])
                 print 'BACKWARD\t['+str(period)+']['+str(group)+'] - '+str(t)
