@@ -244,10 +244,12 @@ def create_schedule(periods, groups, choices):
             print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             group += 1
         period += 1
-    return schedule, factors
+    return (schedule, factors)
 
 
-def print_schedule(schedule, factors):
+def print_schedule(s):
+    schedule = s[0]
+    factors = s[0]
     nickname = {
         'Adventure Woods' : 'Adventure Woods',
         'Adventure Base Camp' :'Adventure Base Camp',
