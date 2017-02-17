@@ -292,7 +292,7 @@ def encode_schedule(schedule, choices):
     e_s = ''
     for i in range(len(schedule)):
         for j in range(len(schedule[0])):
-            e_s += choices.keys().index(schedule[i][j])
+            e_s += str(choices.keys().index(schedule[i][j]))
     return e_x
 
 
