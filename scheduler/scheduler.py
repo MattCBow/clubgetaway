@@ -271,6 +271,7 @@ def create_schedule(periods, groups, choices):
                 else:
                     print 'NO POSSIBLE SCHEDULES'
                     return schedule, factors
+                    print 'what?'
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
             p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
@@ -285,5 +286,5 @@ def create_schedule(periods, groups, choices):
 #[GROUP][PERIOD]
 from scheduler.scheduler import *
 choices = format_choices(Zone.objects.all())
-s,f = create_schedule(5,35, choices)
+s,f = create_schedule(5,1000, choices)
 '''
