@@ -270,7 +270,7 @@ def create_schedule(periods, groups, choices):
                     period -=1
                 else:
                     print 'NO POSSIBLE SCHEDULES'
-                    return None
+                    return schedule, factors
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
             p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
