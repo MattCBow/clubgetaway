@@ -203,7 +203,7 @@ def calculate_factors(period, group, zones, schedule):
         visitors[schedule[period][prev_group]] += 1
     prev_zone = 'White Tent'
     if period != 1:
-        rev_zone = schedule[period-1][group]
+        prev_zone = schedule[period-1][group]
     for zone in zones.keys():
         f[zone] = {}
         f[zone]['level'] = zones[zone]['level']/5.0
@@ -212,9 +212,8 @@ def calculate_factors(period, group, zones, schedule):
         f[zone]['visitors'] = visitors[zone]
         f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
         f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
-        if f[zone]['vacancy'] == 0.0 or f[zone]['visits'] > 0.0:
-            f[zone]['hueristic'] = 0.0
-        else:
+        f[zone]['hueristic'] = 0.0
+        if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0:
             f[zone]['hueristic'] = 1#(10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return f
 
