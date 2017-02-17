@@ -256,7 +256,7 @@ def create_schedule(periods, groups, choices):
             if factors[period][group] is None:
                 factors[period][group] = calculate_factors(period, group, choices, schedule)
             t = sum([factors[period][group][key]['hueristic'] for key in keys])
-            print 'FORWARD\t\t['+str(period)+']['+str(group)+'] - '+str(t)
+            #print 'FORWARD\t\t['+str(period)+']['+str(group)+'] - '+str(t)
             while t == 0.0:
                 factors[period][group] = None
                 if group is not 0:
