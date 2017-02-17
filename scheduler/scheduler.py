@@ -263,8 +263,7 @@ def create_schedule(periods, groups, choices):
             if factors[period][group] is None:
                 print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
                 factors[period][group] = calculate_factors(period, group, choices, schedule)
-            viability = sum([factors[period][group][key]['hueristic'] for key in keys])
-            while viability == 0.0:
+            while sum([factors[period][group][key]['hueristic'] for key in keys]) == 0.0:
                 factors[period][group] = None
                 if group is not 0:
                     group -=1
@@ -276,7 +275,8 @@ def create_schedule(periods, groups, choices):
                     return schedule, factors
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
-            p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
+            t = sum([factors[period][group][key]['hueristic'] for key in keys])
+            p = [(factors[period][group][key]['hueristic']/t) for key in keys]
             schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
             group += 1
         period += 1
