@@ -247,7 +247,7 @@ def print_schedule(schedule, factors):
 
 def create_schedule(periods, groups, choices):
     keys = choices.keys()
-    schedule = [[ None for group in range(groups)] for period in range(periods)]
+    schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
     factors = [[ None for group in range(groups)] for period in range(periods)]
     period = 0
     while period < periods:
@@ -268,7 +268,7 @@ def create_schedule(periods, groups, choices):
                     print 'NO POSSIBLE SCHEDULES'
                     return schedule, factors
                 prev_assignment = schedule[period][group]
-                #schedule[period][group] = None
+                schedule[period][group] = 'White Tent'
                 factors[period][group][prev_assignment]['hueristic'] = 0.0
                 t = sum([factors[period][group][key]['hueristic'] for key in keys])
                 print 'BACKWARD\t['+str(period)+']['+str(group)+'] - '+str(t)
@@ -279,10 +279,29 @@ def create_schedule(periods, groups, choices):
     print_schedule(schedule, factors)
     return schedule, factors
 
+def encode_schedule(schedule, choices):
+    e_s = ''
+    for i in range(period):
+        for j in range(group):
+            e_s += choices.keys().index(schedule[i][j])
+    return e_x
+
+
 '''
-#[GROUP][PERIOD]
+#[PERIOD][GROUP]
 from scheduler.scheduler import *
 choices = format_choices(Zone.objects.all())
 s,f = create_schedule(5,60, choices)
 print_schedule(s,f)
+
+
+Assigment = {
+    Period = int,
+    Group = int,
+    Zone = key,
+    Prev Assignment = {self},
+    Next Assignment = {self},
+    Potential Next = [self...]
+}
+
 '''
