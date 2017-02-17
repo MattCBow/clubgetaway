@@ -237,14 +237,10 @@ def print_schedule(schedule, factors):
         print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
             ass = schedule[period][group]
-            if ass in nickname:
-                nn = nickname[ass]
+            fct = factors[period][group][ass]
+            if ass != None:
                 fct = factors[period][group][ass]
-                vis = '['+str(fct['visits'])+']'
-                cap = '['+str(fct['capacity'])+']'
-                lvl = '['+  str( round((fct['level']*5),1)  ) +']'
-                dst = '['+str(fct['proximity'])+']'
-                print nickname[ass], '[' , str(int(fct['visitors'])) ,'/', str(int(fct['capacity']) ,']' ,'\t',
+                print nickname[ass], '[', str(fct['visitors']), '/', str(fct['capacity']), ']', '\t',
             else:
                 print '\t\t\t',
 
