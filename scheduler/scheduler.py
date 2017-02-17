@@ -279,7 +279,7 @@ def create_schedule(periods, groups, choices):
                 schedule[period][group] = 'White Tent'
                 factors[period][group][prev_assignment]['hueristic'] = 0.0
                 t = sum([factors[period][group][key]['hueristic'] for key in keys])
-                print 'BACKWARD\t['+str(period)+']['+str(group)+'] - '+str(t)
+                print 'BACKWARD\t['+str(period)+']['+str(group)+']\t'+str(attempt[200:])
             p = [(factors[period][group][key]['hueristic']/t) for key in keys]
             schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
             group += 1
