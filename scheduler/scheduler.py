@@ -261,17 +261,6 @@ def create_schedule(periods, groups, choices):
                 factors[period][group] = calculate_factors(period, group, choices, schedule)
             t = sum([factors[period][group][key]['hueristic'] for key in keys])
             while t == 0.0:
-                if (time.time() - start_time) > 60:
-                    schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
-                    factors = [[ None for group in range(groups)] for period in range(periods)]
-                    period = 0
-                    group = 0
-                    start_time = time.time()
-                if attempts in attempts:
-                    print 'OH FUCK'
-                    return schedule, factors
-                else:
-                    attempts += attempt
                 factors[period][group] = None
                 if group is not 0:
                     group -=1
@@ -285,6 +274,12 @@ def create_schedule(periods, groups, choices):
                 schedule[period][group] = 'White Tent'
                 factors[period][group][prev_assignment]['hueristic'] = 0.0
                 t = sum([factors[period][group][key]['hueristic'] for key in keys])
+                if (time.time() - start_time) > 60:
+                    schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
+                    factors = [[ None for group in range(groups)] for period in range(periods)]
+                    period = 0
+                    group = 0
+                    start_time = time.time()
                 print 'BACKWARD\t['+str(len(attempts))+']\t'+str(attempt[300:])
             p = [(factors[period][group][key]['hueristic']/t) for key in keys]
             schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
