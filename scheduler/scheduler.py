@@ -232,8 +232,8 @@ def print_schedule(schedule, zones):
     }
 
     visits = [[0 for z in range(len(zones)) ] for p in range(len(schedule))]
-    for p in range(period):
-        for g in range(group):
+    for p in range(len(schedule)):
+        for g in range(len(group)):
             z = schedule[p][g]
             visitors[z][p] += 1
 
