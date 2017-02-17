@@ -242,9 +242,9 @@ def print_schedule(schedule, factors):
                 fct = factors[period][group][ass]
                 vis = '['+str(fct['visits'])+']'
                 cap = '['+str(fct['capacity'])+']'
-                lvl = '['+  str( round((fct['level']*5),1)  )   +']'
+                lvl = '['+  str( round((fct['level']*5),1)  ) +']'
                 dst = '['+str(fct['proximity'])+']'
-                print nickname[ass],'[',str(int(fct['visitors'])),'/',str(int(fct['capacity']),']','\t',
+                print nickname[ass], '[' , str(int(fct['visitors'])) ,'/', str(int(fct['capacity']) ,']' ,'\t',
             else:
                 print '\t\t\t',
 
