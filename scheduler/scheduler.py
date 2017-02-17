@@ -191,8 +191,7 @@ def format_zone_query(zone_query):
     return zones
 
 
-def calculate_hueristics(schedule, period, group, zones):
-    h = {}
+def calculate_factors(period, group, zones, schedule):
     f = {}
     visits = {zone:0.0 for zone in zones.keys()}
     for prev_period in range(period):
@@ -200,9 +199,7 @@ def calculate_hueristics(schedule, period, group, zones):
     visitors = {zone:0.0 for zone in zones.keys()}
     for prev_group in range(group):
         visitors[schedule[period][prev_group]] += 1
-    prev_zone = schedule[period-1][group]
     for zone in zones.keys():
-        h[zone] = 0.0
         f[zone] = {}
         f[zone]['level'] = zones[zone]['level']/5.0
         f[zone]['capacity'] = zones[zone]['capacity']
@@ -211,25 +208,25 @@ def calculate_hueristics(schedule, period, group, zones):
         f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
         f[zone]['proximity'] = 1.0
         if period != 0:
+            prev_zone = schedule[period-1][group]
             f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
-        if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0:
-            h[zone] = (10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
-    return h, f
+        if f[zone]['vacancy'] == 0.0 or f[zone]['visits'] > 0.0:
+            f[zone]['hueristic'] = 0.0
+        else:
+            f[zone]['hueristic'] = (10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
+    return f
 
 def create_schedule(periods, groups, zones):
     choices = zones.keys()
     schedule = [[ None for group in range(groups)] for period in range(periods)]
-    hueristics = [[ None for group in range(groups)] for period in range(periods)]
     factors = [[ None for group in range(groups)] for period in range(periods)]
     period = 0
     while period < periods:
         group = 0
         while group < groups:
-            print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
-            if hueristics[period][group] is None:
-                hueristics[period][group], factors[period][group] = calculate_hueristics(schedule, period, group, zones)
-            f = sum(hueristics[period][group].values())
-            while f == 0.0:
+            if factors[period][group] is None:
+                factors[period][group] = calculate_factors(period, group, zones, schedule)
+            while sum([factors[period][group][choice]['hueristic'] for choice in choices]) == 0.0:
                 if group is not 0:
                     group -=1
                 elif period is not 0:
@@ -239,16 +236,13 @@ def create_schedule(periods, groups, zones):
                     print 'NO POSSIBLE SCHEDULES'
                     return None
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
-                hueristics[period][group][schedule[period][group]] = 0
-                f = sum(hueristics[period][group].values())
-            p = [(hueristics[period][group][z]/f)  for z in choices]
-            c = range(len(p))
-            i = np.random.choice(c, p=p)
-            choice = choices[i]
-            schedule[period][group] = choice
+                factors[period][group][schedule[period][group]]['hueristic'] = 0.0
+            p = [(factors[period][group][z]['hueristic']/viability)  for choice in choices]
+            schedule[period][group] = choice = choices[np.random.choice(range(len(p)), p=p)]
+            print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             group += 1
         period += 1
-    return schedule, hueristics, factors
+    return schedule, factors
 
 
 def print_schedule(schedule, factors):
@@ -287,7 +281,7 @@ def print_schedule(schedule, factors):
 #[GROUP][PERIOD]
 from scheduler.scheduler import *
 zones = format_zone_query(Zone.objects.all())
-s, h, f = create_schedule(5,35, zones)
+s, f = create_schedule(5,35, zones)
 print_schedule(s, f)
 
 '''
