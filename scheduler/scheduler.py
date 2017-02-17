@@ -211,6 +211,7 @@ def calculate_factors(period, group, zones, schedule):
         f[zone]['visits'] = visits[zone]
         f[zone]['visitors'] = visitors[zone]
         f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
+        print zones.keys()
         f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
         f[zone]['hueristic'] = 0.0
         if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0:
