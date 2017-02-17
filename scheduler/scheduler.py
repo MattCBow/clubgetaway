@@ -244,7 +244,7 @@ def print_schedule(schedule, factors):
                 cap = '['+str(fct['capacity'])+']'
                 lvl = '['+  str( round((fct['level']*5),1)  )   +']'
                 dst = '['+str(fct['proximity'])+']'
-                print nn,detail,'\t',
+                print nickname[ass],'[',str(int(fct['visitors'])),'/',str(int(fct['capacity']),']','\t',
             else:
                 print '\t\t\t',
 
