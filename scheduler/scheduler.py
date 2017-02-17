@@ -243,7 +243,6 @@ def print_schedule(schedule, zones):
         print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
             z = schedule[period][group]
-            fct = factors[period][group][ass]
             print ('['+str(visitors[p][z])+'/'+str(int(zones[z]['capacity']))+']'), nickname[ass], '\t',
     print '\n'
 
