@@ -220,16 +220,16 @@ def calculate_factors(period, group, zones, schedule):
 
 def print_schedule(schedule, factors):
     nickname = {
-        'Adventure Woods' : 'Adventure Woods',
+        'Adventure Woods' : 'Adventure Woods\t',
         'Adventure Base Camp' :'Adventure Base Camp',
-        'Waterside Village' :'Waterside Village',
-        'Waterside Tent' :'Waterside Tent',
-        'The Plateau' :'The Plateau\t',
-        'Waterfront' :'Waterfront\t',
-        'White Tent' :'White Tent\t',
-        'The Valley':'The Valley\t',
-        'Moose Lodge Area' :'Moose Lodge Area',
-        'Mountain View Field' :'Mountain View Field',
+        'Waterside Village' :'Waterside Village\t',
+        'Waterside Tent' :'Waterside Tent\t',
+        'The Plateau' :'The Plateau\t\t',
+        'Waterfront' :'Waterfront\t\t',
+        'White Tent' :'White Tent\t\t',
+        'The Valley':'The Valley\t\t',
+        'Moose Lodge Area' :'Moose Lodge Area\t',
+        'Mountain View Field' :'Mountain View Field\t',
     }
 
     print '\t\t',
@@ -249,7 +249,7 @@ def print_schedule(schedule, factors):
                 dst = '['+str(fct['proximity'])+']'
 
                 detail = '['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'  # round((fct['level']),1)
-                print nn,detail,'\t\t',
+                print nn,detail,'\t',
             else:
                 print 'None\t\t\t',
         print ''
