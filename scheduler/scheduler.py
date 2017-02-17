@@ -232,12 +232,10 @@ def print_schedule(schedule, factors):
         'Mountain View Field' :'Mountain View Field\t',
     }
 
-    print '\t\t',
     for period in range(len(schedule)):
-        print 'PERIOD: [', str(1+period), ']\t\t\t',
-    print ''
+        print '\t\t\t\tPERIOD: [', str(1+period), ']',
     for group in range(len(schedule[0])):
-        print 'GROUP: [', str(group), ']\t',
+        print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
             ass = schedule[period][group]
             if ass in nickname:
@@ -252,7 +250,6 @@ def print_schedule(schedule, factors):
                 print nn,detail,'\t',
             else:
                 print 'None\t\t\t',
-        print ''
 
 
 def create_schedule(periods, groups, choices):
