@@ -240,7 +240,7 @@ def print_schedule(schedule, factors):
             fct = factors[period][group][ass]
             if ass != None:
                 fct = factors[period][group][ass]
-                print nickname[ass], ('['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'), '\t',
+                print ('['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'), nickname[ass], '\t',
             else:
                 print '\t\t\t',
 
