@@ -237,12 +237,12 @@ def print_schedule(schedule, factors):
         print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
             ass = schedule[period][group]
-            fct = factors[period][group][ass]
             if ass != None:
                 fct = factors[period][group][ass]
                 print ('['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'), nickname[ass], '\t',
             else:
                 print '\t\t\t',
+        print '\n'
 
 
 def create_schedule(periods, groups, choices):
