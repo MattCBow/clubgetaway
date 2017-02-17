@@ -248,7 +248,7 @@ def print_schedule(schedule, factors):
                 lvl = '['+  str( round((fct['level']*5),1)  )   +']'
                 dst = '['+str(fct['proximity'])+']'
 
-                detail = '['+str(fct['visitors'])+'/'+str(fct['capacity'])+']'  # round((fct['level']),1)
+                detail = '['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'  # round((fct['level']),1)
                 print nn,detail,'\t',
             else:
                 print 'None\t\t\t',
@@ -292,5 +292,6 @@ def create_schedule(periods, groups, choices):
 #[GROUP][PERIOD]
 from scheduler.scheduler import *
 choices = format_choices(Zone.objects.all())
-s,f = create_schedule(5,100, choices)
+s,f = create_schedule(5,60, choices)
+print_schedule(s,f)
 '''
