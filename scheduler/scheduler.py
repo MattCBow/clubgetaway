@@ -126,7 +126,7 @@ test.generate_program(
 
 def print_structure(structure, depth):
     ret = ""
-    if isinstance(structure, type(None)):
+    if structure is None:
         ret += '\n'
     if isinstance(structure, type('a')):
         ret += ('\t'*depth) + (structure) + ('\n')
@@ -287,5 +287,5 @@ def create_schedule(periods, groups, choices):
 #[GROUP][PERIOD]
 from scheduler.scheduler import *
 choices = format_choices(Zone.objects.all())
-s,f = create_schedule(5,1000, choices)
+s,f = create_schedule(5,100, choices)
 '''
