@@ -216,40 +216,7 @@ def calculate_factors(period, group, zones, schedule):
             f[zone]['hueristic'] = (10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return f
 
-def create_schedule(periods, groups, choices):
-    keys = choices.keys()
-    schedule = [[ None for group in range(groups)] for period in range(periods)]
-    factors = [[ None for group in range(groups)] for period in range(periods)]
-    period = 0
-    while period < periods:
-        group = 0
-        while group < groups:
-            if factors[period][group] is None:
-                factors[period][group] = calculate_factors(period, group, choices, schedule)
-            viability = sum([factors[period][group][key]['hueristic'] for key in keys])
-            while viability == 0.0:
-                factors[period][group] = None
-                if group is not 0:
-                    group -=1
-                elif period is not 0:
-                    group = groups-1
-                    period -=1
-                else:
-                    print 'NO POSSIBLE SCHEDULES'
-                    return None
-                factors[period][group][schedule[period][group]]['hueristic'] = 0.0
-                print 'BACKWARD\t['+str(period)+']['+str(group)+']'
-            p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
-            schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
-            print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
-            group += 1
-        period += 1
-    return (schedule, factors)
-
-
-def print_schedule(s):
-    schedule = s[0]
-    factors = s[0]
+def print_schedule(schedule, factors):
     nickname = {
         'Adventure Woods' : 'Adventure Woods',
         'Adventure Base Camp' :'Adventure Base Camp',
@@ -281,11 +248,42 @@ def print_schedule(s):
             detail = '['+str(fct['capacity'])+']'+'['+str(fct['visitors'])+']'  # round((fct['level']),1)
             print nn,detail,'\t',
         print ''
+
+
+def create_schedule(periods, groups, choices):
+    keys = choices.keys()
+    schedule = [[ None for group in range(groups)] for period in range(periods)]
+    factors = [[ None for group in range(groups)] for period in range(periods)]
+    period = 0
+    while period < periods:
+        group = 0
+        while group < groups:
+            if factors[period][group] is None:
+                factors[period][group] = calculate_factors(period, group, choices, schedule)
+            viability = sum([factors[period][group][key]['hueristic'] for key in keys])
+            while viability == 0.0:
+                factors[period][group] = None
+                if group is not 0:
+                    group -=1
+                elif period is not 0:
+                    group = groups-1
+                    period -=1
+                else:
+                    print 'NO POSSIBLE SCHEDULES'
+                    return None
+                factors[period][group][schedule[period][group]]['hueristic'] = 0.0
+                print 'BACKWARD\t['+str(period)+']['+str(group)+']'
+            p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
+            schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
+            print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
+            group += 1
+        period += 1
+    print_schedule(schedule, factors)
+    return schedule, factors
+
 '''
 #[GROUP][PERIOD]
 from scheduler.scheduler import *
 choices = format_choices(Zone.objects.all())
-s, f = create_schedule(5,35, choices)
-print_schedule(s, f)
-
+s,f = create_schedule(5,35, choices)
 '''
