@@ -285,8 +285,8 @@ def create_schedule(periods, groups, choices):
             schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
             group += 1
         period += 1
-    print_schedule(schedule, zones)
-    return schedule, zones
+    print_schedule(schedule, choices)
+    return schedule, choices
 
 def encode_schedule(schedule, choices):
     e_s = ''
