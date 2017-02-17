@@ -240,7 +240,9 @@ def print_schedule(schedule, factors):
         print 'GROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
             ass = schedule[period][group]
-            nn = nickname[ass]
+            nn = 'None'
+            if ass in nickname:
+                nn = nickname[ass]
             fct = factors[period][group][ass]
             vis = '['+str(fct['visits'])+']'
             cap = '['+str(fct['capacity'])+']'
@@ -273,7 +275,9 @@ def create_schedule(periods, groups, choices):
                 else:
                     print 'NO POSSIBLE SCHEDULES'
                     return schedule, factors
-                factors[period][group][schedule[period][group]]['hueristic'] = 0.0
+                prev_assignment = schedule[period][group]
+                schedule[period][group] = None
+                factors[period][group][prev_assignment]['hueristic'] = 0.0
                 t = sum([factors[period][group][key]['hueristic'] for key in keys])
                 print 'BACKWARD\t['+str(period)+']['+str(group)+'] - '+str(t)
             p = [(factors[period][group][key]['hueristic']/t) for key in keys]
