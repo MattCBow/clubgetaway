@@ -211,10 +211,9 @@ def calculate_factors(period, group, zones, schedule):
         f[zone]['visits'] = visits[zone]
         f[zone]['visitors'] = visitors[zone]
         f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
-        print zones.keys()
         f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
         f[zone]['hueristic'] = 0.0
-        if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0:
+        if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0 and f[zone]['level'] != 0.0:
             f[zone]['hueristic'] = 1#(10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return f
 
@@ -245,8 +244,6 @@ def print_schedule(schedule, factors):
                 cap = '['+str(fct['capacity'])+']'
                 lvl = '['+  str( round((fct['level']*5),1)  )   +']'
                 dst = '['+str(fct['proximity'])+']'
-
-                detail = '['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'  # round((fct['level']),1)
                 print nn,detail,'\t',
             else:
                 print '\t\t\t',
