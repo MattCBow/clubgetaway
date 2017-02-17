@@ -216,8 +216,8 @@ def calculate_factors(period, group, zones, schedule):
             f[zone]['hueristic'] = (10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return f
 
-def create_schedule(periods, groups, zones):
-    choices = zones.keys()
+def create_schedule(periods, groups, choices):
+    keys = choices.keys()
     schedule = [[ None for group in range(groups)] for period in range(periods)]
     factors = [[ None for group in range(groups)] for period in range(periods)]
     period = 0
@@ -225,8 +225,8 @@ def create_schedule(periods, groups, zones):
         group = 0
         while group < groups:
             if factors[period][group] is None:
-                factors[period][group] = calculate_factors(period, group, zones, schedule)
-            viability = sum([factors[period][group][choice]['hueristic'] for choice in choices])
+                factors[period][group] = calculate_factors(period, group, choices, schedule)
+            viability = sum([factors[period][group][choice]['hueristic'] for key in keys])
             while viability == 0.0:
                 factors[period][group] = None
                 if group is not 0:
@@ -239,7 +239,7 @@ def create_schedule(periods, groups, zones):
                     return None
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
-            p = [(factors[period][group][choice]['hueristic']/viability)  for choice in choices]
+            p = [(factors[period][group][choice]['hueristic']/viability) for key in keys]
             schedule[period][group] = choices[np.random.choice(range(len(p)), p=p)]
             print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             group += 1
@@ -282,8 +282,8 @@ def print_schedule(schedule, factors):
 '''
 #[GROUP][PERIOD]
 from scheduler.scheduler import *
-zones = format_zone_query(Zone.objects.all())
-s, f = create_schedule(5,35, zones)
+choices = format_zone_query(Zone.objects.all())
+s, f = create_schedule(5,35, choices)
 print_schedule(s, f)
 
 '''
