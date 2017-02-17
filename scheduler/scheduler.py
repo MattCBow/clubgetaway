@@ -217,7 +217,7 @@ def calculate_factors(period, group, zones, schedule):
             f[zone]['hueristic'] = 1#(10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return f
 
-def print_schedule(schedule, factors, zones):
+def print_schedule(schedule, zones):
     nickname = {
         'Adventure Woods' : 'Adventure Woods\t',
         'Adventure Base Camp' :'Adventure Base Camp',
@@ -261,7 +261,12 @@ def create_schedule(periods, groups, choices):
             t = sum([factors[period][group][key]['hueristic'] for key in keys])
             #print 'FORWARD\t\t['+str(period)+']['+str(group)+'] - '+str(t)
             while t == 0.0:
-                attempts += encode_schedule(schedule)
+                attempt = encode_schedule(schedule)
+                if attempts in attempts:
+                    print 'OH FUCK'
+                    return schedule, factors
+                else:
+                    attempts += attempt
                 factors[period][group] = None
                 if group is not 0:
                     group -=1
@@ -281,7 +286,7 @@ def create_schedule(periods, groups, choices):
             group += 1
         period += 1
     print_schedule(schedule, factors)
-    return schedule, factors
+    return schedule, zones
 
 def encode_schedule(schedule, choices):
     e_s = ''
