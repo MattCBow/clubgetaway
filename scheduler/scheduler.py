@@ -126,6 +126,8 @@ test.generate_program(
 
 def print_structure(structure, depth):
     ret = ""
+    if isinstance(structure, type(None)):
+        ret += '\n'
     if isinstance(structure, type('a')):
         ret += ('\t'*depth) + (structure) + ('\n')
     if isinstance(structure, type(1)):
@@ -259,6 +261,7 @@ def create_schedule(periods, groups, choices):
         group = 0
         while group < groups:
             if factors[period][group] is None:
+                print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
                 factors[period][group] = calculate_factors(period, group, choices, schedule)
             viability = sum([factors[period][group][key]['hueristic'] for key in keys])
             while viability == 0.0:
@@ -271,12 +274,10 @@ def create_schedule(periods, groups, choices):
                 else:
                     print 'NO POSSIBLE SCHEDULES'
                     return schedule, factors
-                    print 'what?'
                 factors[period][group][schedule[period][group]]['hueristic'] = 0.0
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']'
             p = [(factors[period][group][key]['hueristic']/viability) for key in keys]
             schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
-            print 'FORWARD\t\t['+str(period)+']['+str(group)+']'
             group += 1
         period += 1
     print_schedule(schedule, factors)
