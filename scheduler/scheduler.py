@@ -217,7 +217,7 @@ def calculate_factors(period, group, zones, schedule):
             f[zone]['hueristic'] = 1#(10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
     return f
 
-def print_schedule(schedule, factors):
+def print_schedule(schedule, factors, zones):
     nickname = {
         'Adventure Woods' : 'Adventure Woods\t',
         'Adventure Base Camp' :'Adventure Base Camp',
@@ -231,25 +231,28 @@ def print_schedule(schedule, factors):
         'Mountain View Field' :'Mountain View Field',
     }
 
+    visits = [[0 for z in range(len(zones)) ] for p in range(len(period))]
+    for p in range(period):
+        for g in range(group):
+            z = schedule[p][g]
+            visitors[z][p] += 1
+
     for period in range(len(schedule)):
         print '\t\t\tPERIOD: [', str(1+period), ']',
     for group in range(len(schedule[0])):
         print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
-            ass = schedule[period][group]
-            if ass != None:
-                fct = factors[period][group][ass]
-                print ('['+str(int(fct['visitors']))+'/'+str(int(fct['capacity']))+']'), nickname[ass], '\t',
-            else:
-                print '\t\t\t',
+            z = schedule[period][group]
+            fct = factors[period][group][ass]
+            print ('['+str(visitors[p][z])+'/'+str(int(zones[z]['capacity']))+']'), nickname[ass], '\t',
     print '\n'
-
 
 def create_schedule(periods, groups, choices):
     keys = choices.keys()
     schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
     factors = [[ None for group in range(groups)] for period in range(periods)]
     period = 0
+    attempts = []
     while period < periods:
         group = 0
         while group < groups:
@@ -258,6 +261,7 @@ def create_schedule(periods, groups, choices):
             t = sum([factors[period][group][key]['hueristic'] for key in keys])
             #print 'FORWARD\t\t['+str(period)+']['+str(group)+'] - '+str(t)
             while t == 0.0:
+                attempts += encode_schedule(schedule)
                 factors[period][group] = None
                 if group is not 0:
                     group -=1
