@@ -39,18 +39,19 @@ class Guest(models.Model):
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
     csv = models.FileField(upload_to='schedules/',blank=True)
-    '''
+
     def save(self, *args, **kwargs):
-        path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
-        with open(path, 'wb') as csvfile:
+        if self.csv is None:
             path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
-            csv_writer = csv.writer(csvfile, delimiter=',', quotechar='\"', quoting=csv.QUOTE_MINIMAL)
-            csv_writer.writerow(('col1'))
-            for num in range(3):
-                csv_writer.writerow([num, 'hi'])
-        self.csv.name=path
+            with open(path, 'wb') as csvfile:
+                path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
+                csv_writer = csv.writer(csvfile, delimiter=',', quotechar='\"', quoting=csv.QUOTE_MINIMAL)
+                csv_writer.writerow(('col1'))
+                for num in range(3):
+                    csv_writer.writerow([num, 'hi'])
+            self.csv.name=path
         super(Request,self).save(*args, **kwargs)
-    '''
+
 
     def __str__(self):
         return str(self.date)
