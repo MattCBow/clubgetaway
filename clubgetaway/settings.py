@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'infrastructure',
     'operations',
-    'scheduler',
     'rest_framework',
 ]
 
