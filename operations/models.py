@@ -41,7 +41,7 @@ class Schedule(models.Model):
     csv = models.FileField(upload_to='schedules/',blank=True)
 
     def save(self, *args, **kwargs):
-        if self.csv is None:
+        if self.csv.name == '':
             path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
             with open(path, 'wb') as csvfile:
                 path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
