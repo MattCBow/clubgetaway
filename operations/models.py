@@ -1,10 +1,12 @@
 from __future__ import unicode_literals
 
-from django.db import models
-from infrastructure.models import *
+import csv
 import datetime
 
-import csv
+from django.db import models
+from infrastructure.models import *
+
+from django.conf import settings
 from os.path import join
 
 class Program(models.Model):
