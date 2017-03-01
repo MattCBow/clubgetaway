@@ -52,7 +52,7 @@ class Schedule(models.Model):
                     csv_writer.writerow([num, 'hi'])
             self.csv.name=path
         '''
-        super(Request,self).save(*args, **kwargs)
+        super(self).save(*args, **kwargs)
 
 
     def __str__(self):
