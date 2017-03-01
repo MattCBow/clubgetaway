@@ -31,5 +31,5 @@ class Guest(models.Model):
         return str(self.group) +' -- ' +self.last_name + ', ' + self.first_name
 
 class Schedule(models.Model):
-    date = models.DateField(auto_now=False, auto_now_add=False)
+    date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.now)
     models.FileField(upload_to='documents/')
