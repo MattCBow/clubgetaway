@@ -324,9 +324,8 @@ def create_csv_example():
 
 
 def create_csv(name):
-    path = join(settings.MEDIA_ROOT, name)
     with open(path, 'wb') as csvfile:
-        path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
+        path = join(settings.MEDIA_ROOT, name)
         csv_writer = csv.writer(csvfile, delimiter=str(u','), quotechar=str(u'\"'), quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow(('col1'))
         for num in range(3):
