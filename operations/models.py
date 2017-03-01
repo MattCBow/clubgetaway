@@ -33,4 +33,4 @@ class Guest(models.Model):
 
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
-    csv = models.FileField(upload_to='documents/')
+    csv = models.FileField(upload_to='documents/',blank=True)
