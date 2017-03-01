@@ -7,7 +7,7 @@ class Period(models.Model):
     start = models.TimeField()
     next_period = models.ForeignKey('self', blank=True, null=True, related_name='previous_period')
     def __str__(self):
-        return self.start.__str__()
+        return self.start.strftime("%I:%M %p")
 
 class Zone(models.Model):
     name = models.CharField(max_length=30)
