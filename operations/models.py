@@ -5,6 +5,7 @@ import datetime
 
 from django.db import models
 from infrastructure.models import *
+from operations.scheduler import *
 
 from django.conf import settings
 from os.path import join
@@ -39,19 +40,11 @@ class Guest(models.Model):
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
     csv = models.FileField(upload_to='schedules/',blank=True)
-
     def save(self, *args, **kwargs):
         if self.csv.name == '':
-            path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
-            with open(path, 'wb') as csvfile:
-                path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
-                csv_writer = csv.writer(csvfile, delimiter=str(u','), quotechar=str(u'\"'), quoting=csv.QUOTE_MINIMAL)
-                csv_writer.writerow(('col1'))
-                for num in range(3):
-                    csv_writer.writerow([num, 'hi'])
-            self.csv.name='schedules/'+str(self.date)+'.csv'
+            path = 'schedules/'+str(self.date)+'.csv'
+            create_csv(path)
+            self.csv.name=path
         super(Schedule, self).save(*args, **kwargs)
-
-
     def __str__(self):
         return str(self.date)
