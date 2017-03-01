@@ -45,7 +45,7 @@ class Schedule(models.Model):
             path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
             with open(path, 'wb') as csvfile:
                 path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
-                csv_writer = csv.writer(csvfile, delimiter=',', quotechar='\"', quoting=csv.QUOTE_MINIMAL)
+                csv_writer = csv.writer(csvfile, delimiter=str(u','), quotechar=str(u'\"'), quoting=csv.QUOTE_MINIMAL)
                 csv_writer.writerow(('col1'))
                 for num in range(3):
                     csv_writer.writerow([num, 'hi'])
