@@ -41,6 +41,7 @@ class Schedule(models.Model):
     csv = models.FileField(upload_to='schedules/',blank=True)
 
     def save(self, *args, **kwargs):
+        '''
         if self.csv is None:
             path = join(settings.MEDIA_ROOT, 'schedules', str(self.date)+'.csv')
             with open(path, 'wb') as csvfile:
@@ -50,6 +51,7 @@ class Schedule(models.Model):
                 for num in range(3):
                     csv_writer.writerow([num, 'hi'])
             self.csv.name=path
+        '''
         super(Request,self).save(*args, **kwargs)
 
 
