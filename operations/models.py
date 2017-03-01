@@ -49,7 +49,7 @@ class Schedule(models.Model):
                 csv_writer.writerow(('col1'))
                 for num in range(3):
                     csv_writer.writerow([num, 'hi'])
-            self.csv.name=path
+            self.csv.name='schedules/'+str(self.date)+'.csv'
         super(Schedule, self).save(*args, **kwargs)
 
 
