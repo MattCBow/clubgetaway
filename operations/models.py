@@ -29,3 +29,7 @@ class Guest(models.Model):
     last_name = models.CharField(max_length=30)
     def __str__(self):
         return str(self.group) +' -- ' +self.last_name + ', ' + self.first_name
+
+class Schedule(models.Model):
+    date = models.DateField(auto_now=False, auto_now_add=False)
+    models.FileField(upload_to='documents/')
