@@ -88,10 +88,57 @@ class ScheduleTester():
         'Adventure Base Camp -- Parachute Drop (1) LEVEL 5',
         'Adventure Woods -- Adventure Woods (9) LEVEL 4']
 
-    def generate_user(self):
-        first_name = random.choice(self.first_names)
-        last_name = random.choice(self.last_names)
-        self.create_user(first_name, last_name)
+    def generate_activites(self, activities):
+        ret_ids = []
+        for s in activities:
+            z = s[:s.index('--')-1]
+            a = s[s.index('--')+3: s.index('(')-1]
+            c = int(s[s.index('(')+1:s.index(')')])
+            l = int(s[s.index('LEVEL')+6:])
+            zone=Zone.objects.get(name=z)
+            activity = Activity(zone=zone,name=a,capacity=c,level=l)
+            activity.save()
+            ret_ids.append(activity.id)
+        return ret_ids
+
+
+    def generate_periods(self, periods, period_length, first_period):
+        ret_ids = []
+        hrs = int(first_period[:first_period.index(':')])
+        mins = int(first_period[first_period.index(':')+1:])
+        date = datetime.datetime(2000,1,1,hrs,mins,0)
+        for i in range(periods):
+            time = (date+datetime.timedelta(minutes=(i*period_length))).time()
+            period = Period(start=time)
+            period.save()
+            ret_id.append(period.id)
+        return ret_id
+
+    def generate_group_leaders(self, amount):
+        ret_ids = []
+        group = Group.objects.filter(name='GroupLeaders')[0]
+        for i in range(amount)
+            first_name = random.choice(self.first_names)
+            last_name = random.choice(self.last_names)
+            done = False
+            attempt = 1
+            while not done:
+                try:
+                    username = (first_name+last_name+str(attempt)).lower()
+                    password = (first_name[0]+last_name[0]+'password')
+                    user = User.objects.create_user(username,
+                        password=password,
+                        first_name=first_name,
+                        last_name=last_name
+                    )
+                    user.save()
+                    user.groups.add(group_leader)
+                    ret_ids.append(user.id)
+                    done = True
+                    print 'Created User Cridentials => '+username+':'+password
+                except IntegrityError as e:
+                    attempt += 1
+        return ret_ids
 
     def generate_program(self, program_type, program_name, group_capacity, start_date, end_date, number_of_guests):
         return self.create_program(
@@ -101,55 +148,7 @@ class ScheduleTester():
             start_date=start_date,
             end_date=end_date,
             guest_names=self.generate_names(number_of_guests)
-        )
 
-    def generate_periods(first_period,periods,period_length):
-        period_length=60
-        periods = 13
-        first_period = '9:00'
-        hrs = int(first_period[:first_period.index(':')])
-        mins = int(first_period[first_period.index(':')+1:])
-        date = datetime.datetime(2000,1,1,hrs,mins,0)
-        ret_id = []
-        for i in range(periods):
-            time = (date+datetime.timedelta(minutes=(i*period_length))).time()
-            period = Period(start=time)
-            period.save()
-            ret_id.append(period.id)
-        return ret_id
-
-
-    def create_activites():
-        for s in activities:
-            z = s[:s.index('--')-1]
-            a = s[s.index('--')+3: s.index('(')-1]
-            c = int(s[s.index('(')+1:s.index(')')])
-            l = int(s[s.index('LEVEL')+6:])
-            zone=Zone.objects.get(name=z)
-            activity = Activity(zone=zone,name=a,capacity=c,level=l)
-            activity.save()
-
-
-    def create_user(self,first_name, last_name):
-        ret_id = -1
-        done = False
-        attempt = 1
-        while not done:
-            try:
-                username = (first_name+last_name+str(attempt)).lower()
-                password = (first_name[0]+last_name[0]+'password')
-                user = User.objects.create_user(username,
-                    password=password,
-                    first_name=first_name,
-                    last_name=last_name
-                )
-                user.save()
-                ret_id = user.id
-                done = True
-                print 'Created User Cridentials => '+username+':'+password
-            except IntegrityError as e:
-                attempt += 1
-        return ret_id
 
     def create_program(self, program_type, program_name, group_capacity, start_date, end_date, guest_names):
         program = Program(
@@ -199,7 +198,6 @@ def print_structure(structure, depth):
 
 def print_struct(structure):
     print print_structure(structure, 0)
-
 
 def floydwarshall(graph):
     dist = {}
