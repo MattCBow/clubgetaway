@@ -215,6 +215,7 @@ class ScheduleTester():
                 program_type='YP',
                 name=team,
                 campers=numpy.random.choice(group_sizes,1)[0],
+                day=day,
                 arrival_time=Period.objects.all()[0],
                 departure_time=Period.objects.all()[9]
             )

@@ -24,7 +24,7 @@ class Program(models.Model):
     arrival_time = models.ForeignKey(Period,on_delete=models.SET_NULL, null=True, related_name='arriving_group')
     departure_time = models.ForeignKey(Period,on_delete=models.SET_NULL, null=True, related_name='departing_group')
     def __str__(self):
-        return self.name
+        return self.name+' -- '+str(day)
 
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
