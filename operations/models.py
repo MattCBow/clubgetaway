@@ -158,7 +158,7 @@ def create_csv(date):
     employees = User.objects.filter(groups__name='GroupLeaders')
     programs = Program.objects.filter(day=date)
     zones = format_choices(Zone.objects.all())
-    periods = Period.objects.all()
+    periods = Period.objects.all()[:9]
     group_capacity = 25
     groups = []
     for program in programs:
