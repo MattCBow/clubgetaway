@@ -28,7 +28,7 @@ class Program(models.Model):
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
     lunch = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True, null=True, related_name='scheduled_lunch')
-    dinner = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True, null=True, related_name='scheduled_dinner)
+    dinner = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True, null=True, related_name='scheduled_dinner')
     absence = models.ManyToManyField(User,blank=True)
     csv = models.FileField(upload_to='schedules/',blank=True)
     def save(self, *args, **kwargs):
