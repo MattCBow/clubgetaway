@@ -42,144 +42,6 @@ class Printer():
 
 
 class Scheduler():
-    def floydwarshall(graph):
-        dist = {}
-        pred = {}
-        for u in graph:
-            dist[u] = {}
-            pred[u] = {}
-            for v in graph:
-                dist[u][v] = 1000
-                pred[u][v] = -1
-            dist[u][u] = 0
-            for neighbor in graph[u]:
-                dist[u][neighbor] = graph[u][neighbor]
-                pred[u][neighbor] = u
-        for t in graph:
-            for u in graph:
-                for v in graph:
-                    newdist = dist[u][t] + dist[t][v]
-                    if newdist < dist[u][v]:
-                        dist[u][v] = newdist
-                        pred[u][v] = pred[t][v]
-        return dist
-
-    def format_choices(zone_query):
-        zones = {}
-        graph = {}
-        for zone in zone_query:
-            name = zone.name.encode('ascii','ignore')
-            zones[name] = {'capacity':0,'level':0}
-            zones[name]['capacity'] = 0
-            zones[name]['level'] = 0
-            for activity in zone.activities.all():
-                zones[name]['capacity'] += activity.capacity
-                zones[name]['level'] += activity.level * activity.capacity
-            zones[name]['capacity'] = (1.0*zones[name]['capacity'])
-            zones[name]['level'] = (1.0*zones[name]['level'])/zones[name]['capacity']
-            graph[name] = {adjacent_zones.name.encode('ascii','ignore') : 1  for adjacent_zones in zone.adjacent_zones.all()}
-        proximity = floydwarshall(graph)
-        for name in zones.keys():
-            zones[name]['proximity'] = proximity[name]
-        return zones
-
-    def calculate_factors(period, group, zones, schedule):
-        f = {}
-        visits = {zone:0.0 for zone in zones.keys()}
-        for prev_period in range(period):
-            visits[schedule[prev_period][group]] += 1
-        visitors = {zone:0.0 for zone in zones.keys()}
-        for prev_group in range(group):
-            visitors[schedule[period][prev_group]] += 1
-        prev_zone = 'White Tent'
-        if period > 0:
-            prev_zone = schedule[period-1][group]
-        for zone in zones.keys():
-            f[zone] = {}
-            f[zone]['level'] = zones[zone]['level']/5.0
-            f[zone]['capacity'] = zones[zone]['capacity']
-            f[zone]['visits'] = visits[zone]
-            f[zone]['visitors'] = visitors[zone]
-            f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
-            f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
-            f[zone]['hueristic'] = 0.0
-            if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0 and f[zone]['level'] != 0.0:
-                f[zone]['hueristic'] = 1#(10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
-        return f
-
-    def print_schedule(schedule, zones):
-        nickname = {
-            'Adventure Woods' : 'Adventure Woods\t',
-            'Adventure Base Camp' :'Adventure Base Camp',
-            'Waterside Village' :'Waterside Village',
-            'Waterside Tent' :'Waterside Tent\t',
-            'The Plateau' :'The Plateau\t',
-            'Waterfront' :'Waterfront\t',
-            'White Tent' :'White Tent\t',
-            'The Valley':'The Valley\t',
-            'Moose Lodge Area' :'Moose Lodge Area\t',
-            'Mountain View Field' :'Mountain View Field',
-        }
-
-        visitors = {zone:[0 for p in range(len(schedule))] for zone in zones}
-        for p in range(len(schedule)):
-            for g in range(len(schedule[0])):
-                z = schedule[p][g]
-                visitors[z][p] += 1
-
-        for period in range(len(schedule)):
-            print '\t\t\tPERIOD: [', str(1+period), ']',
-        for group in range(len(schedule[0])):
-            print '\nGROUP: [', str(group), ']\t',
-            for period in range(len(schedule)):
-                z = schedule[period][group]
-                print ('['+str(visitors[z][p])+'/'+str(int(zones[z]['capacity']))+']'), nickname[z], '\t',
-        print '\n'
-
-    def create_schedule(periods, groups, choices):
-        keys = choices.keys()
-        schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
-        factors = [[ None for group in range(groups)] for period in range(periods)]
-        period = 0
-        group = 0
-        trial_time = time.time()
-        start_time = time.time()
-        while period < periods:
-            group = 0
-            while group < groups:
-                if factors[period][group] is None:
-                    factors[period][group] = calculate_factors(period, group, choices, schedule)
-                t = sum([factors[period][group][key]['hueristic'] for key in keys])
-                while t == 0.0:
-                    factors[period][group] = None
-                    if group is not 0:
-                        group -=1
-                    elif period is not 0:
-                        group = groups-1
-                        period -=1
-                    else:
-                        print 'NO POSSIBLE SCHEDULES'
-                        return schedule, factors
-                    prev_assignment = schedule[period][group]
-                    schedule[period][group] = 'White Tent'
-                    factors[period][group][prev_assignment]['hueristic'] = 0.0
-                    t = sum([factors[period][group][key]['hueristic'] for key in keys])
-                    if (time.time() - trial_time) > 60:
-                        schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
-                        factors = [[ None for group in range(groups)] for period in range(periods)]
-                        period = 0
-                        group = 0
-                        trial_time = time.time()
-                    if (time.time() - start_time) > 300:
-                        print 'NO POSSIBLE SCHEDULES'
-                        return schedule, factors
-                    print 'BACKWARD\t['+str(period)+']['+str(group)+']\t',
-                p = [(factors[period][group][key]['hueristic']/t) for key in keys]
-                schedule[period][group] = keys[numpy.random.choice(range(len(p)), p=p)]
-                group += 1
-            period += 1
-        print_schedule(schedule, choices)
-        return schedule, factors
 
 
 
@@ -212,6 +74,7 @@ def create_csv_example():
 def create_csv(name):
     gls = User.objects.filter(groups__name='GroupLeaders')
     num_of_groups = (len(guest_names)/group_capacity)+1
+
     path = join(settings.MEDIA_ROOT, name)
     with open(path, 'wb') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=str(u','), quotechar=str(u'\"'), quoting=csv.QUOTE_MINIMAL)
@@ -248,7 +111,7 @@ Assigment = {
 
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-gls = User.objects.filter(groups__name='GroupLeaders')
+employees = User.objects.filter(groups__name='GroupLeaders')
 
 import datetime
 from operations.scheduler import ScheduleTester
