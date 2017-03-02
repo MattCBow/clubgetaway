@@ -33,7 +33,7 @@ class Schedule(models.Model):
     csv = models.FileField(upload_to='schedules/',blank=True)
     def save(self, *args, **kwargs):
         if self.csv.name == '':
-            create_csv(date,path)
+            create_csv(self.date,path)
             self.csv.name='schedules/'+str(self.date)+'.csv'
         super(Schedule, self).save(*args, **kwargs)
     def __str__(self):
@@ -171,7 +171,7 @@ def create_csv(date, name):
         employee_assignments = numpy.random.choice(employees, len(schedule))
         schedule_writer.writerow(time_display)
         for group_id in range(len(schedule)):
-            group_assignment_display = [ str(employees[group_id]),groups[group_id] ]+schedule[group_id]
+            group_assignment_display = [ str(employees[group_id]), groups[group_id] ]+schedule[group_id]
             schedule_writer.writerow(group_assignment_display)
 
 
