@@ -6,6 +6,7 @@ from os.path import join
 from django.conf import settings
 from django.db import IntegrityError
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from infrastructure.models import *
 from operations.models import *
 import datetime
