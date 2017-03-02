@@ -3,14 +3,15 @@
 ----------------------------------------------------------------------------'''
 
 from os.path import join
-from django.contrib.auth.models import User
 from django.conf import settings
-from operations.models import *
+from django.db import IntegrityError
+from django.contrib.auth.models import User
 from infrastructure.models import *
-import random
-import numpy as np
-import csv
+from operations.models import *
 import datetime
+import random
+import numpy
+import csv
 
 
 class ScheduleTester():
@@ -87,6 +88,21 @@ class ScheduleTester():
         'Adventure Base Camp -- Parachute Drop (1) LEVEL 5',
         'Adventure Woods -- Adventure Woods (9) LEVEL 4']
 
+    def generate_user(self):
+        first_name = random.choice(self.first_names)
+        last_name = random.choice(self.last_names)
+        self.create_user(first_name, last_name)
+
+    def generate_program(self, program_type, program_name, group_capacity, start_date, end_date, number_of_guests):
+        return self.create_program(
+            program_type=program_type,
+            program_name=program_name,
+            group_capacity=group_capacity,
+            start_date=start_date,
+            end_date=end_date,
+            guest_names=self.generate_names(number_of_guests)
+        )
+
     def generate_periods(first_period,periods,period_length):
         period_length=60
         periods = 13
@@ -102,20 +118,6 @@ class ScheduleTester():
             ret_id.append(period.id)
         return ret_id
 
-    def generate_user(self):
-        first_name = random.choice(self.first_names)
-        last_name = random.choice(self.last_names)
-        self.create_user(first_name, last_name)
-
-    def generate_program(self, program_type, program_name, group_capacity, start_date, end_date, number_of_guests):
-        return self.create_program(
-            program_type=program_type,
-            program_name=program_name,
-            group_capacity=group_capacity,
-            start_date=start_date,
-            end_date=end_date,
-            guest_names=self.generate_names(number_of_guests)
-        )
 
     def create_activites():
         for s in activities:
@@ -172,20 +174,6 @@ class ScheduleTester():
                     last_name=name['last']
                 )
                 guest.save()
-
-'''
-from scheduler.generator import *
-from operations.models import *
-test = UserTester()
-test.generate_program(
-    program_type=Program.CODE['Youth Program'],
-    program_name='My First Program',
-    group_capacity=25,
-    start_date='2017-01-01',
-    end_date='2017-01-02',
-    number_of_guests=100
-)
-'''
 
 def print_structure(structure, depth):
     ret = ""
@@ -348,7 +336,7 @@ def create_schedule(periods, groups, choices):
                     return schedule, factors
                 print 'BACKWARD\t['+str(period)+']['+str(group)+']\t',
             p = [(factors[period][group][key]['hueristic']/t) for key in keys]
-            schedule[period][group] = keys[np.random.choice(range(len(p)), p=p)]
+            schedule[period][group] = keys[numpy.random.choice(range(len(p)), p=p)]
             group += 1
         period += 1
     print_schedule(schedule, choices)
@@ -373,7 +361,7 @@ def create_csv_example():
         mins = int(first_period[first_period.index(':')+1:])
         date = datetime.datetime(year,month,day,hrs,mins,0)
         time_display = [str(date.date()),'',] + [ (date+datetime.timedelta(minutes=(p*period_length))).strftime("%I:%M %p") for p in range(periods)]
-        employee_assignments = np.random.choice(employees, len(schedule))
+        employee_assignments = numpy.random.choice(employees, len(schedule))
         schedule_writer.writerow(time_display)
         for group_id in range(len(schedule)):
             group_name = 'Group ('+str(group_id)+')'
@@ -390,11 +378,21 @@ def create_csv(name):
         for num in range(3):
             csv_writer.writerow([num, 'hi'])
 
+
 '''
+
 #[PERIOD][GROUP]
-from scheduler.scheduler import *
 choices = format_choices(Zone.objects.all())
 s = create_schedule(5,60, choices)
+test = ScheduleTester()
+test.generate_program(
+    program_type=Program.CODE['Youth Program'],
+    program_name='My First Program',
+    group_capacity=25,
+    start_date='2017-01-01',
+    end_date='2017-01-02',
+    number_of_guests=100
+)
 
 
 Assigment = {
