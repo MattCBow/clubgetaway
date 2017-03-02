@@ -101,7 +101,6 @@ class ScheduleTester():
             ret_ids.append(activity.id)
         return ret_ids
 
-
     def generate_periods(self, periods, period_length, first_period):
         ret_ids = []
         hrs = int(first_period[:first_period.index(':')])
@@ -139,40 +138,6 @@ class ScheduleTester():
                 except IntegrityError as e:
                     attempt += 1
         return ret_ids
-
-    def generate_program(self, program_type, program_name, group_capacity, start_date, end_date, number_of_guests):
-        return self.create_program(
-            program_type=program_type,
-            program_name=program_name,
-            group_capacity=group_capacity,
-            start_date=start_date,
-            end_date=end_date,
-            guest_names=self.generate_names(number_of_guests)
-
-
-    def create_program(self, program_type, program_name, group_capacity, start_date, end_date, guest_names):
-        program = Program(
-            name=program_name,
-            program_type=program_type,
-            group_capacity=group_capacity,
-            start_date=start_date,
-            end_date=end_date
-        )
-        program.save()
-        num_of_groups = (len(guest_names)/group_capacity)+1
-        for group_id in range(num_of_groups):
-            group = Group(
-                program=program,
-                number=(group_id+1)
-            )
-            group.save()
-            for name in guest_names[group_id::num_of_groups]:
-                guest = Guest(
-                    group=group,
-                    first_name=name['first'],
-                    last_name=name['last']
-                )
-                guest.save()
 
 def print_structure(structure, depth):
     ret = ""
@@ -369,6 +334,7 @@ def create_csv_example():
 
 
 def create_csv(name):
+    num_of_groups = (len(guest_names)/group_capacity)+1
     path = join(settings.MEDIA_ROOT, name)
     with open(path, 'wb') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=str(u','), quotechar=str(u'\"'), quoting=csv.QUOTE_MINIMAL)
