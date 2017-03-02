@@ -136,8 +136,8 @@ class ScheduleTester():
         attempt = 1
         while not done:
             try:
-                username = (last_name+first_name+str(attempt)).lower()
-                password = (first_name+'password').lower()
+                username = (first_name+last_name+str(attempt)).lower()
+                password = (first_name[0]+last_name[0]'password')
                 user = User.objects.create_user(username,
                     password=password,
                     first_name=first_name,
