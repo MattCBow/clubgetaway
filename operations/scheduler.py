@@ -206,9 +206,9 @@ class ScheduleTester():
                     attempt += 1
         return ret_ids
 
-    def generate_programs(self, total_programs,day):
+    def generate_programs(self, total_programs, day):
         ret_ids = []
-        teams = numpy.random.choice(team_names, total_programs)
+        teams = numpy.random.choice(self.team_names, total_programs)
         group_sizes = [101,26,82,52,40,33]
         for team_name in teams:
             program = Program(
@@ -435,6 +435,6 @@ from django.contrib.auth.models import Group
 gls = User.objects.filter(groups__name='GroupLeaders')
 
 from operations.scheduler import ScheduleTester
-ScheduleTester().generate_group_leaders(70)
+ScheduleTester().generate_programs(10, datetime.datetime.now().date())
 
 '''
