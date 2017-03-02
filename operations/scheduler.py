@@ -15,6 +15,7 @@ import numpy
 import csv
 
 class Printer():
+    guys = Program.objects.all()
     def print_structure(structure, depth):
         ret = ""
         if structure is None:
