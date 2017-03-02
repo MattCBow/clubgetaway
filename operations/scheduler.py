@@ -15,6 +15,7 @@ import numpy
 import csv
 
 class Printer():
+    guys = Program.objects.all()
     def print_structure(structure, depth):
         ret = ""
         if structure is None:
@@ -434,8 +435,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 gls = User.objects.filter(groups__name='GroupLeaders')
 
-from operations.scheduler import ScheduleTester
 import datetime
+from operations.scheduler import ScheduleTester
 ScheduleTester().generate_programs(10, datetime.datetime.now().date())
 
 '''
