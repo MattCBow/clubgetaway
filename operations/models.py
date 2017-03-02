@@ -168,7 +168,7 @@ def create_csv(date):
     s = create_schedule(len(periods),len(groups), zones)
     schedule = [list(i) for i in zip(*s)]
     with open(path, 'wb') as csvfile:
-        schedule_writer = csv.writer(csvfile, delimiter=',', quotechar='\"', quoting=csv.QUOTE_MINIMAL)
+        schedule_writer = csv.writer(csvfile, delimiter=str(u','), quotechar=str(u'\"'), quoting=csv.QUOTE_MINIMAL)
         periods = len(schedule[0])
         time_display = [str(date),'',] + [str(p) for p in periods]
         employee_assignments = numpy.random.choice(employees, len(schedule))
