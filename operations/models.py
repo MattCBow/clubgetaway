@@ -34,6 +34,7 @@ class Schedule(models.Model):
     def save(self, *args, **kwargs):
         if self.csv.name == '':
             create_csv(self.date,path)
+            path = 'schedules/'+str(self.date)+'.csv'
             self.csv.name='schedules/'+str(self.date)+'.csv'
         super(Schedule, self).save(*args, **kwargs)
     def __str__(self):
@@ -151,19 +152,19 @@ def create_schedule(periods, groups, choices):
         period += 1
     return schedule
 
-def create_csv(date, name):
+def create_csv(date):
+    path = join(settings.MEDIA_ROOT, 'schedules/'+str(date)+'.csv')
+    employees = User.objects.filter(groups__name='GroupLeaders')
     programs = Program.objects.filter(day=date)
+    zones = format_choices(Zone.objects.all())
     periods = Period.objects.all()
     groups = []
     for program in programs:
         program_groups = (program.campers/group_capacity)+1
         for i in range(program_groups):
             groups.append(str(program.name)+' ('+str(i+1)+')')
-    s = create_schedule(len(periods),total_groups, choices)
-    schedule_date = str(date)
+    s = create_schedule(len(periods),total_groups, zones)
     schedule = [list(i) for i in zip(*s)]
-    employees = User.objects.filter(groups__name='GroupLeaders')
-    path = join(settings.MEDIA_ROOT, name)
     with open(path, 'wb') as csvfile:
         schedule_writer = csv.writer(csvfile, delimiter=',', quotechar='\"', quoting=csv.QUOTE_MINIMAL)
         periods = len(schedule[0])
@@ -173,6 +174,3 @@ def create_csv(date, name):
         for group_id in range(len(schedule)):
             group_assignment_display = [ str(employees[group_id]), groups[group_id] ]+schedule[group_id]
             schedule_writer.writerow(group_assignment_display)
-
-
-    choices = (Zone.objects.all())
