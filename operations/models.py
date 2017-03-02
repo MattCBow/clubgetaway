@@ -171,7 +171,7 @@ def create_csv(date, name):
         employee_assignments = numpy.random.choice(employees, len(schedule))
         schedule_writer.writerow(time_display)
         for group_id in range(len(schedule)):
-            group_assignment_display = [str(employees[group_id],groups[group_id]]+schedule[group_id]
+            group_assignment_display = [ str(employees[group_id]),groups[group_id] ]+schedule[group_id]
             schedule_writer.writerow(group_assignment_display)
 
 
