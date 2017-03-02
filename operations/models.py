@@ -20,15 +20,15 @@ class Program(models.Model):
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
     campers = models.PositiveIntegerField()
-    arrival_time = models.OneToOneField(Period,on_delete=models.SET_NULL,default=0, null=True)
-    departure_time = models.OneToOneField(Period,on_delete=models.SET_NULL,default=9, null=True)
+    arrival_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=0, null=True, related_name='arriving_group')
+    departure_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=9, null=True, related_name='departing_group')
     def __str__(self):
         return self.name
 
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
-    lunch = models.OneToOneField(Period,on_delete=models.SET_NULL,blank=True, null=True)
-    dinner = models.OneToOneField(Period,on_delete=models.SET_NULL,blank=True, null=True)
+    lunch = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True, null=True, related_name='scheduled_lunch')
+    dinner = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True, null=True, related_name='scheduled_dinner)
     absence = models.ManyToManyField(User,blank=True)
     csv = models.FileField(upload_to='schedules/',blank=True)
     def save(self, *args, **kwargs):
