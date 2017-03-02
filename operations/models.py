@@ -20,6 +20,7 @@ class Program(models.Model):
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
     campers = models.PositiveIntegerField(default=0)
+    day = models.DateField(auto_now=True)
     arrival_time = models.ForeignKey(Period,on_delete=models.SET_NULL, null=True, related_name='arriving_group')
     departure_time = models.ForeignKey(Period,on_delete=models.SET_NULL, null=True, related_name='departing_group')
     def __str__(self):

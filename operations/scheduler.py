@@ -14,6 +14,31 @@ import random
 import numpy
 import csv
 
+class Printer():
+    def print_structure(structure, depth):
+        ret = ""
+        if structure is None:
+            ret += '\n'
+        if isinstance(structure, type('a')):
+            ret += ('\t'*depth) + (structure) + ('\n')
+        if isinstance(structure, type(1)):
+            ret += ('\t'*depth) + (str(structure)) + ('\n')
+        if isinstance(structure, type(1.0)):
+            ret += ('\t'*depth) + (str(structure)) + ('\n')
+        if isinstance(structure, type((1,2))):
+            ret += ('\t'*depth) + str(structure[0]) + (": ") + print_structure(structure[1], depth)[depth:]
+        if isinstance(structure, type([])):
+            ret += ('\t'*depth) + ('[') + ('\n')
+            for i in range(0,len(structure)): ret += print_structure((i,structure[i]), depth+1)
+            ret = ret[:len(ret)-1] + (']') + ('\n')
+        if isinstance(structure, type({})) and len(structure):
+            ret += ('\t'*depth) + ('{') + ('\n')
+            for (k,v) in structure.iteritems(): ret += print_structure((k,v), depth+1)
+            ret = ret[:len(ret)-1] + ('}') + ('\n')
+        return ret
+
+    def print_struct(structure):
+        print print_structure(structure, 0)
 
 class ScheduleTester():
     first_names = [
@@ -33,7 +58,6 @@ class ScheduleTester():
         'Ariana', 'Landon', 'Ellie', 'Grayson', 'Aaliyah', 'Jonathan', 'Claire',
         'Isaiah', 'Violet', 'Charles'
     ]
-
     last_names = [
         'Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller',
         'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White',
@@ -51,8 +75,44 @@ class ScheduleTester():
         'Washington', 'Butler', 'Simmons', 'Foster', 'Gonzales', 'Bryant',
         'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes'
     ]
-
-    activities = [
+    team_names = [
+        'The Easy Raccoons', 'The Unwieldy Rhinoceroses', 'The Near Humans',
+        'The Uppity Cobras', 'The Black Eels', 'The Necessary Lyrebirds',
+        'The Piquant Ravens', 'The Ripe Jackals', 'The Wandering Echidnas',
+        'The Stereotyped Coyotes', 'The Soft Llamas', 'The Abrupt Lemurs',
+        'The Womanly Toads', 'The Minor Butterflys', 'The Grateful Cats',
+        'The Stale Falcons', 'The Thundering Snakes', 'The Right Rams',
+        'The Petite Pelicans', 'The Spotty Armadillos', 'The Ubiquitous Pandas',
+        'The Bustling Lions', 'The Wry Dogs', 'The Squealing Cranes',
+        'The Adhesive Mallards', 'The Hissing Peafowls', 'The Sloppy Mosquitos',
+        'The Hanging Otters', 'The Fumbling Goats', 'The Brief Weasels',
+        'The Lean Aardvarks', 'The Giant Jaguars', 'The Capricious Swans',
+        'The Unique Yaks', 'The Obeisant Beavers', 'The Vacuous Badgers',
+        'The Aloof Dragons', 'The Precious Giraffes', 'The Defective Gerbils',
+        'The Vast Gorillas', 'The Ahead Herons', 'The Resonant Barracudas',
+        'The Three Cows', 'The Tan Gulls', 'The Teeny-tiny Bees',
+        'The Resolute Mice', 'The Vengeful Reindeers', 'The Spotless Hawks',
+        'The Good Mooses', 'The Childlike Elks', 'The Null Frogs',
+        'The Lazy Larks', 'The Animated Apes', 'The Ethereal Seals',
+        'The Regular Worms', 'The Dizzy Guineapigs', 'The Medical Panthers',
+        'The Disagreeable Hippopotamuss', 'The Stupendous Porcupines',
+        'The New Hedgehogs', 'The Purring Crabs', 'The Greasy Bears',
+        'The Delirious Moles', 'The Guttural Salamanders', 'The Whole Donkeys',
+        'The Scarce Buffalos', 'The Known Elephants', 'The Foamy Squirrels',
+        'The Long-term Shrews', 'The Calm Gazelles', 'The Enchanted Antelopes',
+        'The Wretched Wolves', 'The Tearful Turtles', 'The Observant Chimpanzees',
+        'The Grieving Koalas', 'The Homely Sheep', 'The Plain Eagles',
+        'The Brash Dogfishes', 'The Annoyed Hamsters', 'The Demonic Turkeys',
+        'The Abnormal Stinkbugs', 'The Nutty Louses', 'The Complex Monkeys',
+        'The Faulty Flys', 'The Fanatical Lobsters', 'The Odd Mules',
+        'The Organic Jellyfishes', 'The Quarrelsome Walruses',
+        'The Zealous Magpies', 'The Ruddy Penguins', 'The Glistening Whales',
+        'The Hungry Anteaters', 'The Cloudy Boars', 'The Mighty Finches',
+        'The Selfish Dragonflys', 'The Jazzy Pigeons', 'The Absurd Deers',
+        'The Worried Leopards', 'The Gifted Antelopes', 'The Standing Wolves',
+        'The Outgoing Turtles'
+    ]
+    activity_names = [
         'Mountain View Field -- Bungee Trampoline (4) LEVEL 5',
         'Mountain View Field -- Aero Ball (1) LEVEL 4',
         'Mountain View Field -- A Mazing Adventure (2) LEVEL 4',
@@ -87,7 +147,8 @@ class ScheduleTester():
         'Adventure Base Camp -- Water Fall Zip Line (1) LEVEL 5',
         'Adventure Base Camp -- Aerial Park (4) LEVEL 5',
         'Adventure Base Camp -- Parachute Drop (1) LEVEL 5',
-        'Adventure Woods -- Adventure Woods (9) LEVEL 4']
+        'Adventure Woods -- Adventure Woods (9) LEVEL 4'
+    ]
 
     def generate_activites(self, activities):
         ret_ids = []
@@ -97,7 +158,12 @@ class ScheduleTester():
             c = int(s[s.index('(')+1:s.index(')')])
             l = int(s[s.index('LEVEL')+6:])
             zone=Zone.objects.get(name=z)
-            activity = Activity(zone=zone,name=a,capacity=c,level=l)
+            activity = Activity(
+                zone=zone,
+                name=a,
+                capacity=c,
+                level=l
+            )
             activity.save()
             ret_ids.append(activity.id)
         return ret_ids
@@ -140,171 +206,163 @@ class ScheduleTester():
                     attempt += 1
         return ret_ids
 
-def print_structure(structure, depth):
-    ret = ""
-    if structure is None:
-        ret += '\n'
-    if isinstance(structure, type('a')):
-        ret += ('\t'*depth) + (structure) + ('\n')
-    if isinstance(structure, type(1)):
-        ret += ('\t'*depth) + (str(structure)) + ('\n')
-    if isinstance(structure, type(1.0)):
-        ret += ('\t'*depth) + (str(structure)) + ('\n')
-    if isinstance(structure, type((1,2))):
-        ret += ('\t'*depth) + str(structure[0]) + (": ") + print_structure(structure[1], depth)[depth:]
-    if isinstance(structure, type([])):
-        ret += ('\t'*depth) + ('[') + ('\n')
-        for i in range(0,len(structure)): ret += print_structure((i,structure[i]), depth+1)
-        ret = ret[:len(ret)-1] + (']') + ('\n')
-    if isinstance(structure, type({})) and len(structure):
-        ret += ('\t'*depth) + ('{') + ('\n')
-        for (k,v) in structure.iteritems(): ret += print_structure((k,v), depth+1)
-        ret = ret[:len(ret)-1] + ('}') + ('\n')
-    return ret
+    def generate_programs(self, total_programs,day):
+        ret_ids = []
+        teams = numpy.random.choice(team_names, total_programs)
+        group_sizes = [101,26,82,52,40,33]
+        for team_name in teams:
+            program = Program(
+                program_type='YP',
+                name=team,
+                campers=numpy.random.choice(group_sizes,1)[0],
+                arrival_time=Period.objects.all()[0],
+                departure_time=Period.objects.all()[9]
+            )
+            program.save()
+            ret_ids.append(program.id)
+        return ret_ids
 
-def print_struct(structure):
-    print print_structure(structure, 0)
-
-def floydwarshall(graph):
-    dist = {}
-    pred = {}
-    for u in graph:
-        dist[u] = {}
-        pred[u] = {}
-        for v in graph:
-            dist[u][v] = 1000
-            pred[u][v] = -1
-        dist[u][u] = 0
-        for neighbor in graph[u]:
-            dist[u][neighbor] = graph[u][neighbor]
-            pred[u][neighbor] = u
-    for t in graph:
+class Scheduler():
+    def floydwarshall(graph):
+        dist = {}
+        pred = {}
         for u in graph:
+            dist[u] = {}
+            pred[u] = {}
             for v in graph:
-                newdist = dist[u][t] + dist[t][v]
-                if newdist < dist[u][v]:
-                    dist[u][v] = newdist
-                    pred[u][v] = pred[t][v]
-    return dist
+                dist[u][v] = 1000
+                pred[u][v] = -1
+            dist[u][u] = 0
+            for neighbor in graph[u]:
+                dist[u][neighbor] = graph[u][neighbor]
+                pred[u][neighbor] = u
+        for t in graph:
+            for u in graph:
+                for v in graph:
+                    newdist = dist[u][t] + dist[t][v]
+                    if newdist < dist[u][v]:
+                        dist[u][v] = newdist
+                        pred[u][v] = pred[t][v]
+        return dist
 
 
-def format_choices(zone_query):
-    zones = {}
-    graph = {}
-    for zone in zone_query:
-        name = zone.name.encode('ascii','ignore')
-        zones[name] = {'capacity':0,'level':0}
-        zones[name]['capacity'] = 0
-        zones[name]['level'] = 0
-        for activity in zone.activities.all():
-            zones[name]['capacity'] += activity.capacity
-            zones[name]['level'] += activity.level * activity.capacity
-        zones[name]['capacity'] = (1.0*zones[name]['capacity'])
-        zones[name]['level'] = (1.0*zones[name]['level'])/zones[name]['capacity']
-        graph[name] = {adjacent_zones.name.encode('ascii','ignore') : 1  for adjacent_zones in zone.adjacent_zones.all()}
-    proximity = floydwarshall(graph)
-    for name in zones.keys():
-        zones[name]['proximity'] = proximity[name]
-    return zones
+    def format_choices(zone_query):
+        zones = {}
+        graph = {}
+        for zone in zone_query:
+            name = zone.name.encode('ascii','ignore')
+            zones[name] = {'capacity':0,'level':0}
+            zones[name]['capacity'] = 0
+            zones[name]['level'] = 0
+            for activity in zone.activities.all():
+                zones[name]['capacity'] += activity.capacity
+                zones[name]['level'] += activity.level * activity.capacity
+            zones[name]['capacity'] = (1.0*zones[name]['capacity'])
+            zones[name]['level'] = (1.0*zones[name]['level'])/zones[name]['capacity']
+            graph[name] = {adjacent_zones.name.encode('ascii','ignore') : 1  for adjacent_zones in zone.adjacent_zones.all()}
+        proximity = floydwarshall(graph)
+        for name in zones.keys():
+            zones[name]['proximity'] = proximity[name]
+        return zones
 
 
-def calculate_factors(period, group, zones, schedule):
-    f = {}
-    visits = {zone:0.0 for zone in zones.keys()}
-    for prev_period in range(period):
-        visits[schedule[prev_period][group]] += 1
-    visitors = {zone:0.0 for zone in zones.keys()}
-    for prev_group in range(group):
-        visitors[schedule[period][prev_group]] += 1
-    prev_zone = 'White Tent'
-    if period > 0:
-        prev_zone = schedule[period-1][group]
-    for zone in zones.keys():
-        f[zone] = {}
-        f[zone]['level'] = zones[zone]['level']/5.0
-        f[zone]['capacity'] = zones[zone]['capacity']
-        f[zone]['visits'] = visits[zone]
-        f[zone]['visitors'] = visitors[zone]
-        f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
-        f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
-        f[zone]['hueristic'] = 0.0
-        if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0 and f[zone]['level'] != 0.0:
-            f[zone]['hueristic'] = 1#(10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
-    return f
+    def calculate_factors(period, group, zones, schedule):
+        f = {}
+        visits = {zone:0.0 for zone in zones.keys()}
+        for prev_period in range(period):
+            visits[schedule[prev_period][group]] += 1
+        visitors = {zone:0.0 for zone in zones.keys()}
+        for prev_group in range(group):
+            visitors[schedule[period][prev_group]] += 1
+        prev_zone = 'White Tent'
+        if period > 0:
+            prev_zone = schedule[period-1][group]
+        for zone in zones.keys():
+            f[zone] = {}
+            f[zone]['level'] = zones[zone]['level']/5.0
+            f[zone]['capacity'] = zones[zone]['capacity']
+            f[zone]['visits'] = visits[zone]
+            f[zone]['visitors'] = visitors[zone]
+            f[zone]['vacancy'] = (1.0*f[zone]['capacity'] - 1.0*f[zone]['visitors']) / f[zone]['capacity']
+            f[zone]['proximity'] = 1.0 - 1.0*zones[prev_zone]['proximity'][zone]/5
+            f[zone]['hueristic'] = 0.0
+            if f[zone]['vacancy'] != 0.0 and f[zone]['visits'] == 0.0 and f[zone]['level'] != 0.0:
+                f[zone]['hueristic'] = 1#(10.0*f[zone]['proximity']) + (1.0*f[zone]['vacancy']) + (1.0*f[zone]['level'])
+        return f
 
-def print_schedule(schedule, zones):
-    nickname = {
-        'Adventure Woods' : 'Adventure Woods\t',
-        'Adventure Base Camp' :'Adventure Base Camp',
-        'Waterside Village' :'Waterside Village',
-        'Waterside Tent' :'Waterside Tent\t',
-        'The Plateau' :'The Plateau\t',
-        'Waterfront' :'Waterfront\t',
-        'White Tent' :'White Tent\t',
-        'The Valley':'The Valley\t',
-        'Moose Lodge Area' :'Moose Lodge Area\t',
-        'Mountain View Field' :'Mountain View Field',
-    }
+    def print_schedule(schedule, zones):
+        nickname = {
+            'Adventure Woods' : 'Adventure Woods\t',
+            'Adventure Base Camp' :'Adventure Base Camp',
+            'Waterside Village' :'Waterside Village',
+            'Waterside Tent' :'Waterside Tent\t',
+            'The Plateau' :'The Plateau\t',
+            'Waterfront' :'Waterfront\t',
+            'White Tent' :'White Tent\t',
+            'The Valley':'The Valley\t',
+            'Moose Lodge Area' :'Moose Lodge Area\t',
+            'Mountain View Field' :'Mountain View Field',
+        }
 
-    visitors = {zone:[0 for p in range(len(schedule))] for zone in zones}
-    for p in range(len(schedule)):
-        for g in range(len(schedule[0])):
-            z = schedule[p][g]
-            visitors[z][p] += 1
+        visitors = {zone:[0 for p in range(len(schedule))] for zone in zones}
+        for p in range(len(schedule)):
+            for g in range(len(schedule[0])):
+                z = schedule[p][g]
+                visitors[z][p] += 1
 
-    for period in range(len(schedule)):
-        print '\t\t\tPERIOD: [', str(1+period), ']',
-    for group in range(len(schedule[0])):
-        print '\nGROUP: [', str(group), ']\t',
         for period in range(len(schedule)):
-            z = schedule[period][group]
-            print ('['+str(visitors[z][p])+'/'+str(int(zones[z]['capacity']))+']'), nickname[z], '\t',
-    print '\n'
+            print '\t\t\tPERIOD: [', str(1+period), ']',
+        for group in range(len(schedule[0])):
+            print '\nGROUP: [', str(group), ']\t',
+            for period in range(len(schedule)):
+                z = schedule[period][group]
+                print ('['+str(visitors[z][p])+'/'+str(int(zones[z]['capacity']))+']'), nickname[z], '\t',
+        print '\n'
 
-def create_schedule(periods, groups, choices):
-    keys = choices.keys()
-    schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
-    factors = [[ None for group in range(groups)] for period in range(periods)]
-    period = 0
-    group = 0
-    trial_time = time.time()
-    start_time = time.time()
-    while period < periods:
+    def create_schedule(periods, groups, choices):
+        keys = choices.keys()
+        schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
+        factors = [[ None for group in range(groups)] for period in range(periods)]
+        period = 0
         group = 0
-        while group < groups:
-            if factors[period][group] is None:
-                factors[period][group] = calculate_factors(period, group, choices, schedule)
-            t = sum([factors[period][group][key]['hueristic'] for key in keys])
-            while t == 0.0:
-                factors[period][group] = None
-                if group is not 0:
-                    group -=1
-                elif period is not 0:
-                    group = groups-1
-                    period -=1
-                else:
-                    print 'NO POSSIBLE SCHEDULES'
-                    return schedule, factors
-                prev_assignment = schedule[period][group]
-                schedule[period][group] = 'White Tent'
-                factors[period][group][prev_assignment]['hueristic'] = 0.0
+        trial_time = time.time()
+        start_time = time.time()
+        while period < periods:
+            group = 0
+            while group < groups:
+                if factors[period][group] is None:
+                    factors[period][group] = calculate_factors(period, group, choices, schedule)
                 t = sum([factors[period][group][key]['hueristic'] for key in keys])
-                if (time.time() - trial_time) > 60:
-                    schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
-                    factors = [[ None for group in range(groups)] for period in range(periods)]
-                    period = 0
-                    group = 0
-                    trial_time = time.time()
-                if (time.time() - start_time) > 300:
-                    print 'NO POSSIBLE SCHEDULES'
-                    return schedule, factors
-                print 'BACKWARD\t['+str(period)+']['+str(group)+']\t',
-            p = [(factors[period][group][key]['hueristic']/t) for key in keys]
-            schedule[period][group] = keys[numpy.random.choice(range(len(p)), p=p)]
-            group += 1
-        period += 1
-    print_schedule(schedule, choices)
-    return schedule, factors
+                while t == 0.0:
+                    factors[period][group] = None
+                    if group is not 0:
+                        group -=1
+                    elif period is not 0:
+                        group = groups-1
+                        period -=1
+                    else:
+                        print 'NO POSSIBLE SCHEDULES'
+                        return schedule, factors
+                    prev_assignment = schedule[period][group]
+                    schedule[period][group] = 'White Tent'
+                    factors[period][group][prev_assignment]['hueristic'] = 0.0
+                    t = sum([factors[period][group][key]['hueristic'] for key in keys])
+                    if (time.time() - trial_time) > 60:
+                        schedule = [[ 'White Tent' for group in range(groups)] for period in range(periods)]
+                        factors = [[ None for group in range(groups)] for period in range(periods)]
+                        period = 0
+                        group = 0
+                        trial_time = time.time()
+                    if (time.time() - start_time) > 300:
+                        print 'NO POSSIBLE SCHEDULES'
+                        return schedule, factors
+                    print 'BACKWARD\t['+str(period)+']['+str(group)+']\t',
+                p = [(factors[period][group][key]['hueristic']/t) for key in keys]
+                schedule[period][group] = keys[numpy.random.choice(range(len(p)), p=p)]
+                group += 1
+            period += 1
+        print_schedule(schedule, choices)
+        return schedule, factors
 
 
 
@@ -335,6 +393,7 @@ def create_csv_example():
 
 
 def create_csv(name):
+    gls = User.objects.filter(groups__name='GroupLeaders')
     num_of_groups = (len(guest_names)/group_capacity)+1
     path = join(settings.MEDIA_ROOT, name)
     with open(path, 'wb') as csvfile:
@@ -369,6 +428,12 @@ Assigment = {
     Potential Next = [self...]
 }
 
+
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+gls = User.objects.filter(groups__name='GroupLeaders')
+
 from operations.scheduler import ScheduleTester
 ScheduleTester().generate_group_leaders(70)
+
 '''
