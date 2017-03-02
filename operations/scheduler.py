@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from infrastructure.models import *
-from operations.models import *
+from operations.models import Program
 import datetime
 import random
 import numpy
@@ -16,6 +16,7 @@ import csv
 
 class Printer():
     guys = Program.objects.all()
+
     def print_structure(structure, depth):
         ret = ""
         if structure is None:
