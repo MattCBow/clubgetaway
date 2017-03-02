@@ -20,15 +20,15 @@ class Program(models.Model):
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
     campers = models.PositiveIntegerField()
-    arrival_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=0)
-    departure_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=9)
+    arrival_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=0, null=true)
+    departure_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=9, null=true)
     def __str__(self):
         return self.name
 
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
-    lunch = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True)
-    dinner = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True)
+    lunch = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True, null=true)
+    dinner = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True, null=true)
     absence = models.ManyToManyField(User,blank=True)
     csv = models.FileField(upload_to='schedules/',blank=True)
     def save(self, *args, **kwargs):
