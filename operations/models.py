@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import csv
 import datetime
 import time
+import numpy
 
 from django.db import models
 from infrastructure.models import *
