@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-admin.site.site_header = 'My administration'
+admin.site.site_header = 'Clubgetaway administration'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
