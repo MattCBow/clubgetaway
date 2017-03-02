@@ -213,7 +213,7 @@ class ScheduleTester():
         for team_name in teams:
             program = Program(
                 program_type='YP',
-                name=team,
+                name=team_name,
                 campers=numpy.random.choice(group_sizes,1)[0],
                 day=day,
                 arrival_time=Period.objects.all()[0],
