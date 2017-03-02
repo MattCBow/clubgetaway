@@ -5,7 +5,6 @@ import datetime
 
 from django.db import models
 from infrastructure.models import *
-from operations.scheduler import *
 from django.contrib.auth.models import User
 
 from django.conf import settings
