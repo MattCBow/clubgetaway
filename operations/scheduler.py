@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from infrastructure.models import *
-from .models import Program
+from . import models.Program
 import datetime
 import random
 import numpy
