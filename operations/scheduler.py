@@ -117,7 +117,7 @@ class ScheduleTester():
     def generate_group_leaders(self, amount):
         ret_ids = []
         group = Group.objects.filter(name='GroupLeaders')[0]
-        for i in range(amount)
+        for i in range(amount):
             first_name = random.choice(self.first_names)
             last_name = random.choice(self.last_names)
             done = False
