@@ -33,8 +33,7 @@ class Schedule(models.Model):
     csv = models.FileField(upload_to='schedules/',blank=True)
     def save(self, *args, **kwargs):
         if self.csv.name == '':
-            create_csv(self.date,path)
-            path = 'schedules/'+str(self.date)+'.csv'
+            create_csv(self.date)
             self.csv.name='schedules/'+str(self.date)+'.csv'
         super(Schedule, self).save(*args, **kwargs)
     def __str__(self):
