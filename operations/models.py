@@ -6,6 +6,7 @@ import datetime
 from django.db import models
 from infrastructure.models import *
 from operations.scheduler import *
+from django.contrib.auth.models import User
 
 from django.conf import settings
 from os.path import join
@@ -18,14 +19,17 @@ class Program(models.Model):
     PROGRAM_TYPE_CHOICES = tuple([(CODE[choice], choice) for choice in ['Youth Program']])
     program_type = models.CharField(max_length=2, choices=PROGRAM_TYPE_CHOICES)
     name = models.CharField(max_length=30)
-    group_capacity = models.IntegerField()
-    arrival_time = models.DateTimeField(auto_now=False, auto_now_add=False)
-    departure_time = models.DateTimeField(auto_now=False, auto_now_add=False)
+    campers = models.PositiveIntegerField()
+    arrival_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=0)
+    departure_time = models.ForeignKey(Period,on_delete=models.SET_NULL,default=9)
     def __str__(self):
         return self.name
 
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
+    lunch = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True)
+    dinner = models.ForeignKey(Period,on_delete=models.SET_NULL,blank=True)
+    absence = models.ManyToManyField(User,blank=True)
     csv = models.FileField(upload_to='schedules/',blank=True)
     def save(self, *args, **kwargs):
         if self.csv.name == '':
@@ -35,7 +39,7 @@ class Schedule(models.Model):
         super(Schedule, self).save(*args, **kwargs)
     def __str__(self):
         return str(self.date)
-'''
+
 def create_csv(name):
     path = join(settings.MEDIA_ROOT, name)
     Program.objects.filter(date__range=["2011-01-01", "2011-01-31"])
@@ -46,4 +50,3 @@ def create_csv(name):
         csv_writer.writerow(('col1'))
         for num in range(3):
             csv_writer.writerow([num, 'hi'])
-'''
