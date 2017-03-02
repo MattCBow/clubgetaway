@@ -8,15 +8,13 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from infrastructure.models import *
-from operations.models import Program
+from .models import *
 import datetime
 import random
 import numpy
 import csv
 
 class Printer():
-    guys = Program.objects.all()
-
     def print_structure(structure, depth):
         ret = ""
         if structure is None:
@@ -209,8 +207,6 @@ class ScheduleTester():
         return ret_ids
 
     def generate_programs(self, total_programs, day):
-        print Period.objects.all()
-        print Schedule.objects.all()
         ret_ids = []
         teams = numpy.random.choice(self.team_names, total_programs)
         group_sizes = [101,26,82,52,40,33]
