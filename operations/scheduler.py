@@ -132,7 +132,7 @@ class ScheduleTester():
                         last_name=last_name
                     )
                     user.save()
-                    user.groups.add(group_leader)
+                    user.groups.add(group)
                     ret_ids.append(user.id)
                     done = True
                     print 'Created User Cridentials => '+username+':'+password
@@ -368,4 +368,7 @@ Assigment = {
     Next Assignment = {self},
     Potential Next = [self...]
 }
+
+from operations.scheduler import ScheduleTester
+ScheduleTester().generate_group_leaders(70)
 '''
