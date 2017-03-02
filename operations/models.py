@@ -163,7 +163,7 @@ def create_csv(date):
         program_groups = (program.campers/group_capacity)+1
         for i in range(program_groups):
             groups.append(str(program.name)+' ('+str(i+1)+')')
-    s = create_schedule(len(periods),total_groups, zones)
+    s = create_schedule(len(periods),len(groups), zones)
     schedule = [list(i) for i in zip(*s)]
     with open(path, 'wb') as csvfile:
         schedule_writer = csv.writer(csvfile, delimiter=',', quotechar='\"', quoting=csv.QUOTE_MINIMAL)
