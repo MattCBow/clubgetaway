@@ -24,19 +24,6 @@ class Program(models.Model):
     def __str__(self):
         return self.name
 
-class Group(models.Model):
-    program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='groups')
-    number = models.IntegerField()
-    def __str__(self):
-        return str(self.program)+' ('+str(self.number)+')'
-
-class Guest(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='guests')
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    def __str__(self):
-        return str(self.group) +' -- ' +self.last_name + ', ' + self.first_name
-
 class Schedule(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False, default=datetime.datetime.now, unique=True)
     csv = models.FileField(upload_to='schedules/',blank=True)
@@ -48,3 +35,15 @@ class Schedule(models.Model):
         super(Schedule, self).save(*args, **kwargs)
     def __str__(self):
         return str(self.date)
+'''
+def create_csv(name):
+    path = join(settings.MEDIA_ROOT, name)
+    Program.objects.filter(date__range=["2011-01-01", "2011-01-31"])
+
+
+    with open(path, 'wb') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=str(u','), quotechar=str(u'\"'), quoting=csv.QUOTE_MINIMAL)
+        csv_writer.writerow(('col1'))
+        for num in range(3):
+            csv_writer.writerow([num, 'hi'])
+'''
