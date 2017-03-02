@@ -1,6 +1,7 @@
 '''----------------------------------------------------------------------------
                     Matthew Bowyer Account Generator
 ----------------------------------------------------------------------------'''
+
 from os.path import join
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -11,7 +12,8 @@ import numpy as np
 import csv
 import datetime
 
-class UserTester():
+
+class ScheduleTester():
     first_names = [
         'Emma', 'Noah', 'Olivia', 'Liam', 'Sophia', 'Mason', 'Ava	Jacob',
         'Isabella', 'William', 'Mia', 'Ethan', 'Abigail', 'James', 'Emily',
@@ -47,12 +49,87 @@ class UserTester():
         'Washington', 'Butler', 'Simmons', 'Foster', 'Gonzales', 'Bryant',
         'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes'
     ]
+
+    activities = [
+        'Mountain View Field -- Bungee Trampoline (4) LEVEL 5',
+        'Mountain View Field -- Aero Ball (1) LEVEL 4',
+        'Mountain View Field -- A Mazing Adventure (2) LEVEL 4',
+        'Mountain View Field -- Stunt Swing (1) LEVEL 5',
+        'Mountain View Field -- Crazy Olympics (4) LEVEL 3',
+        'Moose Lodge Area -- Technical Rock Climb (1) LEVEL 4',
+        'Moose Lodge Area -- Mountain Hike (4) LEVEL3',
+        'Moose Lodge Area -- Photo Quest Challenge (2) LEVEL 3',
+        'The Valley -- Valley Zip Line (1) LEVEL 3',
+        'The Valley -- Climbing Wall (6) LEVEL 4',
+        'The Valley -- Pine Climb (3) LEVEL 5',
+        'Boathouse -- Dance Party (15) LEVEL 6',
+        'Waterfront -- Shallow Swim (2) Level 5',
+        'Waterfront -- Water Park (2)LEVEL 5',
+        'Waterfront -- Boating (1) LEVEL 5',
+        'White Tent -- Mountain House (12) LEVEL 7',
+        'White Tent -- Road House (8) LEVEL 7',
+        'White Tent -- White Tent (20) LEVEL 7',
+        'The Plateau -- Archery (2) LEVEL 4',
+        'The Plateau -- Air Archery (1) LEVEL 3',
+        'The Plateau -- Geocaching (2) LEVEL 3',
+        'The Plateau -- Orienteering (2) LEVEL 3',
+        'Waterside Tent -- Bouncy Boxing (1) LEVEL 3',
+        'Waterside Tent -- Gladiator Joust (1) LEVEL 3',
+        'Waterside Tent -- Monkey Jumper (4) LEVEL 4',
+        'Waterside Tent -- Sticky Dodgeball (1) LEVEL 3',
+        'Waterside Tent -- Kickball / Wiffleball (1) LEVEL 2',
+        'Waterside Village -- Triple Zip Line (3) LEVEL 5',
+        'Waterside Village -- Giant Swings (3) LEVEL 5',
+        'Adventure Base Camp -- Geronimo (1) LEVEL 5',
+        'Adventure Base Camp -- ABC Zip Line (1) LEVEL 5',
+        'Adventure Base Camp -- Water Fall Zip Line (1) LEVEL 5',
+        'Adventure Base Camp -- Aerial Park (4) LEVEL 5',
+        'Adventure Base Camp -- Parachute Drop (1) LEVEL 5',
+        'Adventure Woods -- Adventure Woods (9) LEVEL 4']
+
+    def generate_periods(first_period,periods,period_length):
+        period_length=60
+        periods = 13
+        first_period = '9:00'
+        hrs = int(first_period[:first_period.index(':')])
+        mins = int(first_period[first_period.index(':')+1:])
+        date = datetime.datetime(2000,1,1,hrs,mins,0)
+        ret_id = []
+        for i in range(periods):
+            time = (date+datetime.timedelta(minutes=(i*period_length))).time()
+            period = Period(start=time)
+            period.save()
+            ret_id.append(period.id)
+        return ret_id
+
     def generate_user(self):
         first_name = random.choice(self.first_names)
         last_name = random.choice(self.last_names)
         self.create_user(first_name, last_name)
 
+    def generate_program(self, program_type, program_name, group_capacity, start_date, end_date, number_of_guests):
+        return self.create_program(
+            program_type=program_type,
+            program_name=program_name,
+            group_capacity=group_capacity,
+            start_date=start_date,
+            end_date=end_date,
+            guest_names=self.generate_names(number_of_guests)
+        )
+
+    def create_activites():
+        for s in activities:
+            z = s[:s.index('--')-1]
+            a = s[s.index('--')+3: s.index('(')-1]
+            c = int(s[s.index('(')+1:s.index(')')])
+            l = int(s[s.index('LEVEL')+6:])
+            zone=Zone.objects.get(name=z)
+            activity = Activity(zone=zone,name=a,capacity=c,level=l)
+            activity.save()
+
+
     def create_user(self,first_name, last_name):
+        ret_id = -1
         done = False
         attempt = 1
         while not done:
@@ -65,20 +142,12 @@ class UserTester():
                     last_name=last_name
                 )
                 user.save()
+                ret_id = user.id
                 done = True
                 print 'Created User Cridentials => '+username+':'+password
             except IntegrityError as e:
                 attempt += 1
-
-    def generate_names(self, num_of_names):
-        names = []
-        for i in range(num_of_names):
-            name = {}
-            name['first'] = random.choice(self.first_names)
-            name['last'] = random.choice(self.last_names)
-            names.append(name)
-        return names
-
+        return ret_id
 
     def create_program(self, program_type, program_name, group_capacity, start_date, end_date, guest_names):
         program = Program(
@@ -103,16 +172,6 @@ class UserTester():
                     last_name=name['last']
                 )
                 guest.save()
-
-    def generate_program(self, program_type, program_name, group_capacity, start_date, end_date, number_of_guests):
-        return self.create_program(
-            program_type=program_type,
-            program_name=program_name,
-            group_capacity=group_capacity,
-            start_date=start_date,
-            end_date=end_date,
-            guest_names=self.generate_names(number_of_guests)
-        )
 
 '''
 from scheduler.generator import *
@@ -346,5 +405,4 @@ Assigment = {
     Next Assignment = {self},
     Potential Next = [self...]
 }
-
 '''
