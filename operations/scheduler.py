@@ -207,6 +207,7 @@ class ScheduleTester():
         return ret_ids
 
     def generate_programs(self, total_programs, day):
+        print Period.objects.all()
         print Program.objects.all()
         ret_ids = []
         teams = numpy.random.choice(self.team_names, total_programs)
