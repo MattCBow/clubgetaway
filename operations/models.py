@@ -157,6 +157,7 @@ def create_csv(date):
     programs = Program.objects.filter(day=date)
     zones = format_choices(Zone.objects.all())
     periods = Period.objects.all()
+    group_capacity = 25
     groups = []
     for program in programs:
         program_groups = (program.campers/group_capacity)+1
